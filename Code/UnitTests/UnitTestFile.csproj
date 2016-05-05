@@ -51,6 +51,9 @@
     <Compile Include="Consoles\SomeLowerCaseContract.cs" />
     <Compile Include="TestBench.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Tests\ArgStashTests.cs" />
+    <Compile Include="Tests\SwitchStackTests.cs" />
+    <Compile Include="Tests\CommandlineContractTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SmartConsole\ConsoleArguments.csproj">

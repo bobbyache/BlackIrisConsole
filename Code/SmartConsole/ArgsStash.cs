@@ -34,11 +34,51 @@ namespace Iris.ConsoleArguments
         {
             if (Exists(switchKey))
             {
-                string arg = argList.SingleOrDefault(a => a.StartsWith(switchKey));
-                argList.Remove(arg);
-                return arg;
+                if (IsStandaloneSwitch(switchKey))
+                {
+                    // get the next index
+                    int nextIndex = argList.IndexOf(switchKey) + 1;
+
+                    if (nextIndex > argList.Count - 1 || IsLikeSwitch(argList[nextIndex]))
+                    {
+                        // if the next segment doesn't exist, or it looks
+                        // like a switch just remove this arg.
+                        argList.Remove(switchKey);
+                        return switchKey;
+                    }
+                    else
+                    {
+                        // the next segment (arg) is likely to be a value
+                        // for the switch, so fetch it and remove it together
+                        // with this arg.
+                        string arg = switchKey + argList[nextIndex];
+                        argList.RemoveAt(nextIndex);
+                        argList.Remove(switchKey);
+                        return arg;
+                    }
+                }
+                else
+                {
+                    // the switch is squashed to the value for the switch, so
+                    // just remove this segment (arg).
+                    string arg = argList.SingleOrDefault(a => a.StartsWith(switchKey));
+                    argList.Remove(arg);
+                    return arg;
+                }
             }
             return null;
+        }
+
+        protected virtual bool IsLikeSwitch(string arg)
+        {
+            if (arg.Substring(0, 1) == "-")
+                return true;
+            return false;
+        }
+
+        private bool IsStandaloneSwitch(string switchKey)
+        {
+            return argList.Contains(switchKey);
         }
     }
 }
