@@ -12,14 +12,13 @@ namespace Iris.ConsoleArguments
     {
         public T Deserialize(string[] args)
         {
+
             T contract = new T();
 
-            if (IsCommandlineContract(contract))
-            {
-                PopulateContract(contract, IsolateArguments(contract, args));
-            }
-            else
-                throw new ApplicationException("The object contract is not decorated with the CommandlineContract attribute.");
+            if (!IsCommandlineContract(contract))
+                throw new NotSupportedException("The object contract is not decorated with the CommandlineContract attribute.");
+
+            PopulateContract(contract, IsolateArguments(contract, args));
 
             return contract;
         }
@@ -52,6 +51,9 @@ namespace Iris.ConsoleArguments
                 WriteArgument(argContract, propInfo, arguments);
         }
 
+        /// <summary>
+        /// Checks that object being passed in is decorated with the command line attribute.
+        /// </summary>
         private bool IsCommandlineContract(object argContract)
         {
             try
@@ -59,14 +61,15 @@ namespace Iris.ConsoleArguments
                 Type t = argContract.GetType();
                 object[] attributes = t.GetCustomAttributes(false);
 
-                CommandlineContractAttribute attr = (from a in attributes
-                                                     select a).OfType<CommandlineContractAttribute>().FirstOrDefault();
+                var result = (from a in attributes
+                              select a).OfType<CommandlineContractAttribute>().SingleOrDefault();
+
+                return result == null ? false : true;
             }
             catch (Exception)
             {
                 return false;
             }
-            return true;
         }
 
         private ArgumentContractAttribute[] PropertyArgumentContracts(PropertyInfo property)

@@ -46,6 +46,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Consoles\BcpArgContract.cs" />
+    <Compile Include="Consoles\Contractless.cs" />
+    <Compile Include="Consoles\SomeLowerCaseContract.cs" />
     <Compile Include="TestBench.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

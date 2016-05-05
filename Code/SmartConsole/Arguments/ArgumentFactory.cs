@@ -32,6 +32,11 @@ namespace Iris.ConsoleArguments.Arguments
                             arguments.Add(new Argument(argument, GetSwitch(argument)));
                             concatNext = false;
                         }
+                        else if (IsLikeSwitch(args[x + 1]))
+                        {
+                            arguments.Add(new Argument(argument, GetSwitch(argument)));
+                            concatNext = false;
+                        }
                         else
                         {
                             concatNext = true;
@@ -72,6 +77,14 @@ namespace Iris.ConsoleArguments.Arguments
 
             return "";
         }
+
+        protected virtual bool IsLikeSwitch(string arg)
+        {
+            if (arg.Substring(0, 1) == "-")
+                return true;
+            return false;
+        }
+
         protected virtual bool IsSwitch(string arg)
         {
             foreach (string sw in expectedSwitches)
