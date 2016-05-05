@@ -9,25 +9,25 @@ namespace UnitTestFile.Consoles
     [CommandlineContract]
     public class SimilarSwitchContract
     {
-        [ArgumentContract("-h", ExpectedType = typeof(string))]
+        [KeyValueSwitch("-h", ExpectedType = typeof(string))]
         public string Host { get; set; }
 
-        [ArgumentContract("-hdatabase", ExpectedType = typeof(string))]
+        [KeyValueSwitch("-hdatabase", ExpectedType = typeof(string))]
         public string Database { get; set; }
 
-        [ArgumentContract("-hdatabasetbl", ExpectedType = typeof(string))]
+        [KeyValueSwitch("-hdatabasetbl", ExpectedType = typeof(string))]
         public string TargetTable { get; set; }
 
-        [ArgumentContract("-user", ExpectedType = typeof(string))]
+        [KeyValueSwitch("-user", ExpectedType = typeof(string))]
         public string Username { get; set; }
 
-        [ArgumentContract("-userpass", ExpectedType = typeof(string))]
+        [KeyValueSwitch("-userpass", ExpectedType = typeof(string))]
         public string Password { get; set; }
 
-        [ArgumentContract("-t", ExpectedType = typeof(Int32))]
+        [KeyValueSwitch("-t", ExpectedType = typeof(Int32))]
         public int Timeout { get; set; }
 
-        [ArgumentContract("-tr", ExpectedType = typeof(DateTime))]
+        [KeyValueSwitch("-tr", ExpectedType = typeof(DateTime))]
         public DateTime RunDate { get; set; }
     }
 }

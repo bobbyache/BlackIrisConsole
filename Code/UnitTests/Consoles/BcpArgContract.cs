@@ -9,25 +9,25 @@ namespace UnitTestFile.Consoles
     [CommandlineContract]
     public class BcpArgContract
     {
-        [ArgumentContract("-H,-host", ExpectedType = typeof(string))]
+        [KeyValueSwitch("-H,-host", ExpectedType = typeof(string))]
         public string Host { get; set; }
 
-        [ArgumentContract("-d", ExpectedType = typeof(string))]
+        [KeyValueSwitch("-d", ExpectedType = typeof(string))]
         public string Database { get; set; }
 
-        [ArgumentContract("-T,-t", ExpectedType = typeof(string))]
+        [KeyValueSwitch("-T,-t", ExpectedType = typeof(string))]
         public string TargetTable { get; set; }
 
-        [ArgumentContract("-U,-u", ExpectedType = typeof(string))]
+        [KeyValueSwitch("-U,-u", ExpectedType = typeof(string))]
         public string Username { get; set; }
 
-        [ArgumentContract("-P,-p", ExpectedType = typeof(string))]
+        [KeyValueSwitch("-P,-p", ExpectedType = typeof(string))]
         public string Password { get; set; }
 
-        [ArgumentContract("-o,-O", ExpectedType = typeof(Int32))]
+        [KeyValueSwitch("-o,-O", ExpectedType = typeof(Int32))]
         public int Timeout { get; set; }
 
-        [ArgumentContract("-date", ExpectedType = typeof(DateTime))]
+        [KeyValueSwitch("-date", ExpectedType = typeof(DateTime))]
         public DateTime RunDate { get; set; }
     }
 }

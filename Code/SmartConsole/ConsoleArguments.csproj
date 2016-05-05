@@ -43,9 +43,8 @@
     <Compile Include="ArgsStash.cs" />
     <Compile Include="CmdlineAgent.cs" />
     <Compile Include="Arguments\Argument.cs" />
-    <Compile Include="Attributes\ArgumentContractAttribute.cs" />
+    <Compile Include="Attributes\KeyValueSwitchAttribute.cs" />
     <Compile Include="Attributes\CommandlineContractAttribute.cs" />
-    <Compile Include="Arguments\ArgumentFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SwitchStack.cs" />
   </ItemGroup>

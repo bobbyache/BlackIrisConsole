@@ -8,7 +8,7 @@ using Iris.ConsoleArguments.Arguments;
 
 namespace Iris.ConsoleArguments
 {
-    public class CmdlineAgent<T> where T : new()
+    public class CmdlineAgent<T> where T : class, new()
     {
         public T Deserialize(string[] args)
         {
@@ -18,28 +18,28 @@ namespace Iris.ConsoleArguments
             if (!IsCommandlineContract(contract))
                 throw new NotSupportedException("The object contract is not decorated with the CommandlineContract attribute.");
 
-            PopulateContract(contract, IsolateArguments(contract, args));
+            PopulateContract(contract, CreateArguments(contract, args));
 
             return contract;
         }
 
-        private List<Argument> IsolateArguments(object argContract, string[] args)
+        private List<Argument> CreateArguments(T contract, string[] args)
         {
-            Type t = argContract.GetType();
-            PropertyInfo[] propInfos = t.GetProperties();
-            List<ArgumentContractAttribute> argumentContractAttributes = new List<ArgumentContractAttribute>();
+            SwitchStack<T> switchStack = new SwitchStack<T>(contract);
+            ArgsStash argStash = new ArgsStash(args);
+            List<Argument> argumentsList = new List<Argument>();
 
-            foreach (PropertyInfo propInfo in propInfos)
-                argumentContractAttributes.AddRange(PropertyArgumentContracts(propInfo));
-
-            string[] contractSwitches = new string[0];
-            foreach (var a in argumentContractAttributes)
+            while (!switchStack.Empty)
             {
-                contractSwitches = contractSwitches.Concat(a.Switches).ToArray();
+                string switchKey = switchStack.Pop();
+                string arg = argStash.Pop(switchKey);
+                if (arg != null)
+                {
+                    Argument argument = new Argument(arg, switchKey);
+                    argumentsList.Add(argument);
+                }
             }
-
-            ArgumentFactory info = new ArgumentFactory(contractSwitches);
-            return info.ConstructArguments(args);
+            return argumentsList;
         }
 
         private void PopulateContract(object argContract, List<Argument> arguments)
@@ -72,19 +72,19 @@ namespace Iris.ConsoleArguments
             }
         }
 
-        private ArgumentContractAttribute[] PropertyArgumentContracts(PropertyInfo property)
+        private KeyValueSwitchAttribute[] PropertyArgumentContracts(PropertyInfo property)
         {
             object[] attrs = property.GetCustomAttributes(false);
-            ArgumentContractAttribute[] argumentAttributes = (from obj in attrs
-                                                              select obj).OfType<ArgumentContractAttribute>().ToArray();
+            KeyValueSwitchAttribute[] argumentAttributes = (from obj in attrs
+                                                            select obj).OfType<KeyValueSwitchAttribute>().ToArray();
             return argumentAttributes;
         }
 
         private void WriteArgument(object argumentContract, PropertyInfo property, List<Argument> arguments)
         {
-            ArgumentContractAttribute[] argumentAttributes = PropertyArgumentContracts(property);
+            KeyValueSwitchAttribute[] argumentAttributes = PropertyArgumentContracts(property);
 
-            foreach (ArgumentContractAttribute argAttr in argumentAttributes)
+            foreach (KeyValueSwitchAttribute argAttr in argumentAttributes)
             {
                 foreach (Argument argument in arguments)
                 {

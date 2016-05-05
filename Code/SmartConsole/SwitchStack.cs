@@ -17,6 +17,7 @@ namespace Iris.ConsoleArguments
         public SwitchStack(T contract)
         {
             this.contract = contract;
+            Reset();
         }
 
         public string Pop()
@@ -32,11 +33,11 @@ namespace Iris.ConsoleArguments
             PropertyInfo[] properties = t.GetProperties();
 
             List<string> switchKeys = new List<string>();
-            List<ArgumentContractAttribute> attributes = new List<ArgumentContractAttribute>();
+            List<KeyValueSwitchAttribute> attributes = new List<KeyValueSwitchAttribute>();
 
             foreach (PropertyInfo property in properties)
             {
-                ArgumentContractAttribute attr = GetProperyContract(property);
+                KeyValueSwitchAttribute attr = GetProperyContract(property);
                 if (attr != null)
                     switchKeys.AddRange(attr.Switches);
             }
@@ -55,11 +56,11 @@ namespace Iris.ConsoleArguments
 
         }
 
-        private ArgumentContractAttribute GetProperyContract(PropertyInfo property)
+        private KeyValueSwitchAttribute GetProperyContract(PropertyInfo property)
         {
             object[] attrs = property.GetCustomAttributes(false);
-            ArgumentContractAttribute attr = (from obj in attrs
-                                              select obj).OfType<ArgumentContractAttribute>().SingleOrDefault();
+            KeyValueSwitchAttribute attr = (from obj in attrs
+                                              select obj).OfType<KeyValueSwitchAttribute>().SingleOrDefault();
             return attr;
         }
     }
