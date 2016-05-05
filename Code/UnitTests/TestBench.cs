@@ -19,7 +19,7 @@ namespace UnitTestFile
     public class TestBench
     {
         [TestMethod]
-        public void BcpArgContract_Tests()
+        public void CommandlineContract_PopulateAll_Properties()
         {
             string[] args = new string[] { "-host", "ZACTN51", "-dCBMDB", "-tTableName", "-uRob", "-pPassword", "-O2000"  };
 
@@ -36,7 +36,7 @@ namespace UnitTestFile
 
         [TestMethod]
         [ExpectedException(typeof(NotSupportedException))]
-        public void Contractless_Object_ThrowsException()
+        public void CommandlineContract_Contractless_Object_ThrowsException()
         {
             string[] args = new string[] { "-host", "ZACTN51", "-dCBMDB", "-tTableName", "-uRob", "-pPassword", "-O2000" };
 
@@ -45,7 +45,7 @@ namespace UnitTestFile
         }
 
         [TestMethod]
-        public void Contract_Supports_Only_LowerCase()
+        public void CommandlineContract_Supports_Only_LowerCase()
         {
             string[] args = new string[] { "-host", "ZACTN51", "-dCBMDB", "-tTableName", "-URob", "-pPassword", "-O2000" };
 
@@ -58,6 +58,22 @@ namespace UnitTestFile
             Assert.AreEqual(contract.Password, "Password");
             Assert.AreEqual(contract.TargetTable, "TableName");
             Assert.AreEqual(contract.Timeout, 0);               // upper case switch is not supported
+        }
+
+        [TestMethod]
+        public void CommandlineContract_Gaps_Between_Switch_And_Value()
+        {
+            string[] args = new string[] { "-host", "ZACTN51", "-d", "CBMDB", "-t", "TableName", "-u", "Rob", "-p", "Password", "-O", "2000" };
+
+            CmdlineAgent<BcpArgContract> agent = new CmdlineAgent<BcpArgContract>();
+            BcpArgContract contract = agent.Deserialize(args);
+
+            Assert.AreEqual(contract.Host, "ZACTN51");
+            Assert.AreEqual(contract.Database, "CBMDB");
+            Assert.AreEqual(contract.Username, "Rob");
+            Assert.AreEqual(contract.Password, "Password");
+            Assert.AreEqual(contract.TargetTable, "TableName");
+            Assert.AreEqual(contract.Timeout, 2000);
         }
     }
 }
