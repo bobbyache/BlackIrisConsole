@@ -86,22 +86,5 @@ namespace Iris.ConsoleArguments.Arguments
 
             return false;
         }
-
-        //private bool hasSwitch(string arg, string[] switches)
-        //{
-        //    string trimArg = arg.Trim();
-
-        //    foreach (string sw in switches)
-        //    {
-        //        string trimSwitch = sw.Trim();
-        //        if (trimArg.Length >= trimSwitch.Length)
-        //        {
-        //            string compareText = arg.Substring(0, trimSwitch.Length - 1);
-        //            if (trimSwitch == compareText)
-        //                return true;
-        //        }
-        //    }
-        //    return false;
-        //}
     }
 }

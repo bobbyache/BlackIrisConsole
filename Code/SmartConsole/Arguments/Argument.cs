@@ -14,7 +14,6 @@ namespace Iris.ConsoleArguments.Arguments
 
         internal Argument(string argument, string containedSwitch)
         {
-            //string arg = argument.Replace("\"", "");
             this.HasSwitch = hasSwitch(argument);
 
             if (this.HasSwitch)
