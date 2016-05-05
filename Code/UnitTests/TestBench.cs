@@ -22,8 +22,8 @@ namespace UnitTestFile
             //string[] argies = new string[] { "-date","2010-09-02" };
             //string[] argies = new string[] { "-date", "2010-09" };
 
-            BcpArgContract contract = new BcpArgContract();
-            CmdlineAgent.Deserialize(args, contract);
+            CmdlineAgent<BcpArgContract> agent = new CmdlineAgent<BcpArgContract>();
+            BcpArgContract contract = agent.Deserialize(args);
 
             Assert.AreEqual(contract.Host, "ZACTN51");
             Assert.AreEqual(contract.Database, "CBMDB");

@@ -8,19 +8,23 @@ using Iris.ConsoleArguments.Arguments;
 
 namespace Iris.ConsoleArguments
 {
-    public class CmdlineAgent
+    public class CmdlineAgent<T> where T : new()
     {
-        public static void Deserialize(string[] args, object argContract)
+        public T Deserialize(string[] args)
         {
-            if (IsCommandlineContract(argContract))
+            T contract = new T();
+
+            if (IsCommandlineContract(contract))
             {
-                PopulateContract(argContract, IsolateArguments(argContract, args));
+                PopulateContract(contract, IsolateArguments(contract, args));
             }
             else
                 throw new ApplicationException("The object contract is not decorated with the CommandlineContract attribute.");
+
+            return contract;
         }
 
-        private static List<Argument> IsolateArguments(object argContract, string[] args)
+        private List<Argument> IsolateArguments(object argContract, string[] args)
         {
             Type t = argContract.GetType();
             PropertyInfo[] propInfos = t.GetProperties();
@@ -39,7 +43,7 @@ namespace Iris.ConsoleArguments
             return info.ConstructArguments(args);
         }
 
-        private static void PopulateContract(object argContract, List<Argument> arguments)
+        private void PopulateContract(object argContract, List<Argument> arguments)
         {
             Type t = argContract.GetType();
             PropertyInfo[] propInfos = t.GetProperties();
@@ -48,7 +52,7 @@ namespace Iris.ConsoleArguments
                 WriteArgument(argContract, propInfo, arguments);
         }
 
-        private static bool IsCommandlineContract(object argContract)
+        private bool IsCommandlineContract(object argContract)
         {
             try
             {
@@ -65,7 +69,7 @@ namespace Iris.ConsoleArguments
             return true;
         }
 
-        private static ArgumentContractAttribute[] PropertyArgumentContracts(PropertyInfo property)
+        private ArgumentContractAttribute[] PropertyArgumentContracts(PropertyInfo property)
         {
             object[] attrs = property.GetCustomAttributes(false);
             ArgumentContractAttribute[] argumentAttributes = (from obj in attrs
@@ -73,7 +77,7 @@ namespace Iris.ConsoleArguments
             return argumentAttributes;
         }
 
-        private static void WriteArgument(object argumentContract, PropertyInfo property, List<Argument> arguments)
+        private void WriteArgument(object argumentContract, PropertyInfo property, List<Argument> arguments)
         {
             ArgumentContractAttribute[] argumentAttributes = PropertyArgumentContracts(property);
 
