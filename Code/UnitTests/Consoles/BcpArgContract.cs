@@ -13,7 +13,7 @@ namespace UnitTestFile.Consoles
         [ArgumentContract("-host", ExpectedType = typeof(string))]
         public string Host { get; set; }
 
-        [ArgumentContract("-D", ExpectedType = typeof(string))]
+        [ArgumentContract("-d", ExpectedType = typeof(string))]
         public string Database { get; set; }
 
         [ArgumentContract("-T", ExpectedType = typeof(string))]
