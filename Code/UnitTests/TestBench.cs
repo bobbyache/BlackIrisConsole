@@ -15,7 +15,7 @@ namespace UnitTestFile
         [TestMethod]
         public void BcpArgContract_Tests()
         {
-            string[] argies = new string[] { "-host", "ZACTN51", "-dCBMDB", "-tTableName", "-uRob", "-pPassword", "-O2000"  };
+            string[] args = new string[] { "-host", "ZACTN51", "-dCBMDB", "-tTableName", "-uRob", "-pPassword", "-O2000"  };
             //string[] argies = new string[] { "-host", "-d", "-t", "-u", "-p", "-O" };
             //string[] argies = new string[] { "" };
             //string[] argies = new string[] { "-host", "-d", "-t", "-u", "-p", "-O", "-date 2010/09/02" };
@@ -23,7 +23,7 @@ namespace UnitTestFile
             //string[] argies = new string[] { "-date", "2010-09" };
 
             BcpArgContract contract = new BcpArgContract();
-            CmdlineAgent.Deserialize(argies, contract);
+            CmdlineAgent.Deserialize(args, contract);
 
             Assert.AreEqual(contract.Host, "ZACTN51");
             Assert.AreEqual(contract.Database, "CBMDB");

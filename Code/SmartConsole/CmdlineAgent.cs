@@ -12,15 +12,15 @@ namespace Iris.ConsoleArguments
     {
         public static void Deserialize(string[] args, object argContract)
         {
-            if (isCommandlineContract(argContract))
+            if (IsCommandlineContract(argContract))
             {
-                populateContract(argContract, isolateArguments(argContract, args));
+                PopulateContract(argContract, IsolateArguments(argContract, args));
             }
             else
                 throw new ApplicationException("The object contract is not decorated with the CommandlineContract attribute.");
         }
 
-        private static List<Argument> isolateArguments(object argContract, string[] args)
+        private static List<Argument> IsolateArguments(object argContract, string[] args)
         {
             Type t = argContract.GetType();
             PropertyInfo[] propInfos = t.GetProperties();
@@ -29,23 +29,26 @@ namespace Iris.ConsoleArguments
             foreach (PropertyInfo propInfo in propInfos)
                 argumentContractAttributes.AddRange(PropertyArgumentContracts(propInfo));
 
-            string[] contractSwitches = (from a in argumentContractAttributes
-                                        select a.SwitchCharacter).ToArray();
+            string[] contractSwitches = new string[0];
+            foreach (var a in argumentContractAttributes)
+            {
+                contractSwitches = contractSwitches.Concat(a.Switches).ToArray();
+            }
 
             ArgumentFactory info = new ArgumentFactory(contractSwitches);
             return info.ConstructArguments(args);
         }
 
-        private static void populateContract(object argContract, List<Argument> arguments)
+        private static void PopulateContract(object argContract, List<Argument> arguments)
         {
             Type t = argContract.GetType();
             PropertyInfo[] propInfos = t.GetProperties();
 
             foreach (PropertyInfo propInfo in propInfos)
-                writeArgument(argContract, propInfo, arguments);
+                WriteArgument(argContract, propInfo, arguments);
         }
 
-        private static bool isCommandlineContract(object argContract)
+        private static bool IsCommandlineContract(object argContract)
         {
             try
             {
@@ -55,7 +58,7 @@ namespace Iris.ConsoleArguments
                 CommandlineContractAttribute attr = (from a in attributes
                                                      select a).OfType<CommandlineContractAttribute>().FirstOrDefault();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return false;
             }
@@ -70,7 +73,7 @@ namespace Iris.ConsoleArguments
             return argumentAttributes;
         }
 
-        private static void writeArgument(object argumentContract, PropertyInfo property, List<Argument> arguments)
+        private static void WriteArgument(object argumentContract, PropertyInfo property, List<Argument> arguments)
         {
             ArgumentContractAttribute[] argumentAttributes = PropertyArgumentContracts(property);
 
@@ -78,7 +81,7 @@ namespace Iris.ConsoleArguments
             {
                 foreach (Argument argument in arguments)
                 {
-                    if (argument.Switch == argAttr.SwitchCharacter.ToString())
+                    if (argAttr.Switches.Contains(argument.Switch))
                     {
                         switch (property.PropertyType.ToString())
                         {
