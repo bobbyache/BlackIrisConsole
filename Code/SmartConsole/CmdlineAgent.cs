@@ -4,6 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Reflection;
 using BlackIris.Attributes;
+using BlackIris.Parameters;
+using BlackIris.ContractWriters;
+using BlackIris.Services;
 
 namespace BlackIris
 {

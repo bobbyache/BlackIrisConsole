@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BlackIris
+namespace BlackIris.Parameters
 {
     internal class KeyValueSwitchParameter : ISwitchParameter
     {

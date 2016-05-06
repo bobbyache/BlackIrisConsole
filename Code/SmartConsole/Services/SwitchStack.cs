@@ -5,7 +5,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 
-namespace BlackIris
+namespace BlackIris.Services
 {
     internal class SwitchStack<TContract, TSwitchAttribute> 
         where TContract : class

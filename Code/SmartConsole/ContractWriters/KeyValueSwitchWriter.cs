@@ -1,11 +1,12 @@
 ﻿using BlackIris.Attributes;
+using BlackIris.Parameters;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Text;
 
-namespace BlackIris
+namespace BlackIris.ContractWriters
 {
     internal class KeyValueSwitchWriter<TContract> where TContract : class, new()
     {

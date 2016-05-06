@@ -1,6 +1,7 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using BlackIris;
+using BlackIris.Services;
 
 namespace UnitTestFile.Tests
 {

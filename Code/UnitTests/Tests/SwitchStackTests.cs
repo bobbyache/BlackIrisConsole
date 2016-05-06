@@ -3,6 +3,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using BlackIris;
 using UnitTestFile.Support;
 using BlackIris.Attributes;
+using BlackIris.Services;
 
 namespace UnitTestFile.Tests
 {
