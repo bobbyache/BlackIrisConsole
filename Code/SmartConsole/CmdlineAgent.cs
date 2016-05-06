@@ -18,24 +18,20 @@ namespace BlackIris
             if (!IsCommandlineContract(contract))
                 throw new NotSupportedException("The object contract is not decorated with the CommandlineContract attribute.");
 
-            WriteToContract(contract, CreateArguments(contract, args));
+            List<Argument> keyValueSwitchParams = CreateKeyValueSwitchParameters(contract, args);
+            KeyValueSwitchWriter<TContract> contractWriter = new KeyValueSwitchWriter<TContract>();
+            contractWriter.Write(contract, keyValueSwitchParams);
 
             return contract;
         }
 
-        private void WriteToContract(TContract contract, List<Argument> arguments)
-        {
-            KeyValueSwitchWriter<TContract> contractWriter = new KeyValueSwitchWriter<TContract>();
-            contractWriter.Write(contract, arguments);
-        }
-
-        private List<Argument> CreateArguments(TContract contract, string[] args)
+        private List<Argument> CreateKeyValueSwitchParameters(TContract contract, string[] args)
         {
             // using the SwitchStack, the switches are presented in a matter so
             // that the switches with greater length beginning with the same
             // characters are grabbed first together with their matching args
             // so that conflicts are avoided.
-            SwitchStack<TContract> switchStack = new SwitchStack<TContract>(contract);
+            SwitchStack<TContract, KeyValueSwitchAttribute> switchStack = new SwitchStack<TContract, KeyValueSwitchAttribute>(contract);
             ArgsStash argStash = new ArgsStash(args);
             List<Argument> argumentsList = new List<Argument>();
 

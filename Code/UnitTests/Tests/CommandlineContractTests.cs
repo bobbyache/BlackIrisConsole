@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using BlackIris;
-using UnitTestFile.Consoles;
+using UnitTestFile.Support;
 
 namespace UnitTestFile.Tests
 {
@@ -64,6 +64,23 @@ namespace UnitTestFile.Tests
             Assert.AreEqual(contract.Password, "Password");
             Assert.AreEqual(contract.TargetTable, "TableName");
             Assert.AreEqual(contract.Timeout, 2000);
+        }
+
+        [TestMethod]
+        public void CommandlineContract_Support_Switches_StartingWith_Same_Segment()
+        {
+            string[] args = new string[] { "-h", "ZACTN51", "-hdatabasetblTableName", "-hdatabaseCMDB", "-userpassPassword", "-userRob", "-tr2010/09/02", "-t200" };
+
+            CmdlineAgent<SimilarSwitchContract> agent = new CmdlineAgent<SimilarSwitchContract>();
+            SimilarSwitchContract contract = agent.Deserialize(args);
+
+            Assert.AreEqual(contract.Host, "ZACTN51");
+            Assert.AreEqual(contract.Database, "CMDB");
+            Assert.AreEqual(contract.Username, "Rob");
+            Assert.AreEqual(contract.Password, "Password");
+            Assert.AreEqual(contract.TargetTable, "TableName");
+            Assert.AreEqual(contract.Timeout, 200);
+            Assert.AreEqual(contract.RunDate, DateTime.Parse("2010/09/02"));
         }
     }
 }

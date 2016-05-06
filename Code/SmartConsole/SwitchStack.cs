@@ -7,7 +7,9 @@ using System.Text;
 
 namespace BlackIris
 {
-    internal class SwitchStack<TContract> where TContract : class
+    internal class SwitchStack<TContract, TSwitchAttribute> 
+        where TContract : class
+        where TSwitchAttribute : class, ISwitchAttribute
     {
         private TContract contract = null;
         private Stack<string> switchStack = new Stack<string>();
@@ -33,11 +35,11 @@ namespace BlackIris
             PropertyInfo[] properties = t.GetProperties();
 
             List<string> switchKeys = new List<string>();
-            List<KeyValueSwitchAttribute> attributes = new List<KeyValueSwitchAttribute>();
+            List<TSwitchAttribute> attributes = new List<TSwitchAttribute>();
 
             foreach (PropertyInfo property in properties)
             {
-                KeyValueSwitchAttribute attr = GetProperyContract(property);
+                TSwitchAttribute attr = GetProperyContract(property);
                 if (attr != null)
                     switchKeys.AddRange(attr.Switches);
             }
@@ -56,11 +58,11 @@ namespace BlackIris
 
         }
 
-        private KeyValueSwitchAttribute GetProperyContract(PropertyInfo property)
+        private TSwitchAttribute GetProperyContract(PropertyInfo property)
         {
             object[] attrs = property.GetCustomAttributes(false);
-            KeyValueSwitchAttribute attr = (from obj in attrs
-                                              select obj).OfType<KeyValueSwitchAttribute>().SingleOrDefault();
+            TSwitchAttribute attr = (from obj in attrs
+                                     select obj).OfType<TSwitchAttribute>().SingleOrDefault();
             return attr;
         }
     }
