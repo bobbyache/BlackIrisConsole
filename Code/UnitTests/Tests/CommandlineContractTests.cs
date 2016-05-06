@@ -9,7 +9,7 @@ namespace UnitTestFile.Tests
     public class CommandlineContractTests
     {
         [TestMethod]
-        public void CommandlineContract_PopulateAll_Properties()
+        public void CommandlineContract_KeyValueSwitch_MergedSwitchAndValue()
         {
             string[] args = new string[] { "-host", "ZACTN51", "-dCBMDB", "-tTableName", "-uRob", "-pPassword", "-O2000" };
 
@@ -24,34 +24,9 @@ namespace UnitTestFile.Tests
             Assert.AreEqual(contract.Timeout, 2000);
         }
 
-        [TestMethod]
-        [ExpectedException(typeof(NotSupportedException))]
-        public void CommandlineContract_Contractless_Object_ThrowsException()
-        {
-            string[] args = new string[] { "-host", "ZACTN51", "-dCBMDB", "-tTableName", "-uRob", "-pPassword", "-O2000" };
-
-            CmdlineAgent<Contractless> agent = new CmdlineAgent<Contractless>();
-            Contractless contract = agent.Deserialize(args);
-        }
 
         [TestMethod]
-        public void CommandlineContract_Supports_Only_LowerCase()
-        {
-            string[] args = new string[] { "-host", "ZACTN51", "-dCBMDB", "-tTableName", "-URob", "-pPassword", "-O2000" };
-
-            CmdlineAgent<SomeLowerCaseContract> agent = new CmdlineAgent<SomeLowerCaseContract>();
-            SomeLowerCaseContract contract = agent.Deserialize(args);
-
-            Assert.AreEqual(contract.Host, "ZACTN51");
-            Assert.AreEqual(contract.Database, "CBMDB");
-            Assert.AreEqual(contract.Username, null);           // upper case switch is not supported
-            Assert.AreEqual(contract.Password, "Password");
-            Assert.AreEqual(contract.TargetTable, "TableName");
-            Assert.AreEqual(contract.Timeout, 0);               // upper case switch is not supported
-        }
-
-        [TestMethod]
-        public void CommandlineContract_Gaps_Between_Switch_And_Value()
+        public void CommandlineContract_KeyValueSwitch_AdjacentSwitchAndValue()
         {
             string[] args = new string[] { "-host", "ZACTN51", "-d", "CBMDB", "-t", "TableName", "-u", "Rob", "-p", "Password", "-O", "2000" };
 
@@ -67,7 +42,23 @@ namespace UnitTestFile.Tests
         }
 
         [TestMethod]
-        public void CommandlineContract_Support_Switches_StartingWith_Same_Segment()
+        public void CommandlineContract_KeyValueSwitch_IsCaseSensitive()
+        {
+            string[] args = new string[] { "-host", "ZACTN51", "-dCBMDB", "-tTableName", "-URob", "-pPassword", "-O2000" };
+
+            CmdlineAgent<SomeLowerCaseContract> agent = new CmdlineAgent<SomeLowerCaseContract>();
+            SomeLowerCaseContract contract = agent.Deserialize(args);
+
+            Assert.AreEqual(contract.Host, "ZACTN51");
+            Assert.AreEqual(contract.Database, "CBMDB");
+            Assert.AreEqual(contract.Username, null);           // upper case switch is not supported
+            Assert.AreEqual(contract.Password, "Password");
+            Assert.AreEqual(contract.TargetTable, "TableName");
+            Assert.AreEqual(contract.Timeout, 0);               // upper case switch is not supported
+        }
+
+        [TestMethod]
+        public void CommandlineContract_KeyValueSwitch_Supports_SwitchStartingWithSameChars()
         {
             string[] args = new string[] { "-h", "ZACTN51", "-hdatabasetblTableName", "-hdatabaseCMDB", "-userpassPassword", "-userRob", "-tr2010/09/02", "-t200" };
 
@@ -84,7 +75,7 @@ namespace UnitTestFile.Tests
         }
 
         [TestMethod]
-        public void CommandlineContract_FlagSwitches_PopulateContract()
+        public void CommandlineContract_FlagSwitch_PopulatesContract()
         {
             string[] args = new string[] { "-h", "-up" };
 
@@ -94,6 +85,16 @@ namespace UnitTestFile.Tests
             Assert.IsTrue(contract.BruteForce);
             Assert.IsFalse(contract.IgnoreWarnings);
             Assert.IsTrue(contract.UpperCase);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(NotSupportedException))]
+        public void CommandlineContract_ThrowsException_NoContractFound()
+        {
+            string[] args = new string[] { "-host", "ZACTN51", "-dCBMDB", "-tTableName", "-uRob", "-pPassword", "-O2000" };
+
+            CmdlineAgent<Contractless> agent = new CmdlineAgent<Contractless>();
+            Contractless contract = agent.Deserialize(args);
         }
     }
 }
