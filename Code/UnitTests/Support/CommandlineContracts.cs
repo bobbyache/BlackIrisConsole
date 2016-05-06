@@ -68,6 +68,12 @@ namespace UnitTestFile.Support
         [KeyValueSwitch("-hdatabasetbl", ExpectedType = typeof(string))]
         public string TargetTable { get; set; }
 
+        [FlagSwitch("-b,-hard")]
+        public bool BruteForce { get; set; }
+
+        [FlagSwitch("-ignore")]
+        public bool IgnoreWarnings { get; set; }
+
         [KeyValueSwitch("-user", ExpectedType = typeof(string))]
         public string Username { get; set; }
 
@@ -106,16 +112,52 @@ namespace UnitTestFile.Support
         public DateTime RunDate { get; set; }
     }
 
-    public class SomeNonAttrPropertiesContract
+    //[CommandlineContract]
+    //public class SomeNonAttrPropertiesContract
+    //{
+    //    [KeyValueSwitch("-H,-host", ExpectedType = typeof(string))]
+    //    public string Host { get; set; }
+
+    //    public string Database { get; set; }
+
+    //    [KeyValueSwitch("-t", ExpectedType = typeof(string))]
+    //    public string TargetTable { get; set; }
+
+    //    public string Username { get; set; }
+    //}
+
+    [CommandlineContract]
+    public class FlagSwitchContract
     {
-        [KeyValueSwitch("-H,-host", ExpectedType = typeof(string))]
-        public string Host { get; set; }
+        [FlagSwitch("-h,-hard")]
+        public bool BruteForce { get; set; }
 
-        public string Database { get; set; }
+        [FlagSwitch("-ignore")]
+        public bool IgnoreWarnings { get; set; }
 
-        [KeyValueSwitch("-t", ExpectedType = typeof(string))]
-        public string TargetTable { get; set; }
-
+        [KeyValueSwitch("-u", ExpectedType = typeof(string))]
         public string Username { get; set; }
+
+        [KeyValueSwitch("-p", ExpectedType = typeof(string))]
+        public string Password { get; set; }
+    }
+
+    [CommandlineContract]
+    public class FlagSwitchContract2
+    {
+        [FlagSwitch("-h,-hard")]
+        public bool BruteForce { get; set; }
+
+        [FlagSwitch("-ignore")]
+        public bool IgnoreWarnings { get; set; }
+
+        [FlagSwitch("-up")]
+        public bool UpperCase { get; set; }
+
+        [KeyValueSwitch("-u", ExpectedType = typeof(string))]
+        public string Username { get; set; }
+
+        [KeyValueSwitch("-p", ExpectedType = typeof(string))]
+        public string Password { get; set; }
     }
 }

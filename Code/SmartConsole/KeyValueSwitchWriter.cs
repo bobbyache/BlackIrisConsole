@@ -1,5 +1,4 @@
-﻿using BlackIris.Arguments;
-using BlackIris.Attributes;
+﻿using BlackIris.Attributes;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,7 +9,7 @@ namespace BlackIris
 {
     internal class KeyValueSwitchWriter<TContract> where TContract : class, new()
     {
-        public void Write(TContract contract, List<Argument> arguments)
+        public void Write(TContract contract, List<KeyValueSwitchParameter> arguments)
         {
             Type t = contract.GetType();
             PropertyInfo[] propInfos = t.GetProperties();
@@ -19,13 +18,13 @@ namespace BlackIris
                 WriteValue(contract, propInfo, arguments);
         }
 
-        private void WriteValue(TContract contract, PropertyInfo property, List<Argument> arguments)
+        private void WriteValue(TContract contract, PropertyInfo property, List<KeyValueSwitchParameter> arguments)
         {
             KeyValueSwitchAttribute[] attrs = PropertyArgumentContracts(property);
 
             foreach (KeyValueSwitchAttribute attr in attrs)
             {
-                foreach (Argument argument in arguments)
+                foreach (KeyValueSwitchParameter argument in arguments)
                 {
                     if (attr.Switches.Contains(argument.Switch))
                     {

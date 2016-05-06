@@ -21,21 +21,46 @@ namespace UnitTestFile.Tests
 
             Assert.IsFalse(switchStack.Empty);
 
+            // Order is important. Stack will always pop reverse alphabetic order
+            // in order to process longer switches before shorter switches and
+            // eliminate issues resulting from shorter switches starting with the
+            // same characters as longer switches being found in error.
             Assert.AreEqual("-userpass", switchStack.Pop());
             Assert.AreEqual("-user", switchStack.Pop());
-
             Assert.AreEqual("-tr", switchStack.Pop());
             Assert.AreEqual("-t", switchStack.Pop());
-
             Assert.AreEqual("-hdatabasetbl", switchStack.Pop());
             Assert.AreEqual("-hdatabase", switchStack.Pop());
             Assert.AreEqual("-h", switchStack.Pop());
 
+            // Also asserts that no other switch types are retrieved on the stack
             Assert.IsTrue(switchStack.Empty);
 
             switchStack.Reset();
 
             Assert.IsFalse(switchStack.Empty);
+        }
+
+        [TestMethod]
+        public void SwitchStack_FlagSwitch_PopOrder()
+        {
+            string[] args = new string[] { "-ignore", "-h" };
+
+            FlagSwitchContract contract = new FlagSwitchContract();
+            SwitchStack<FlagSwitchContract, FlagSwitchAttribute> switchStack = new SwitchStack<FlagSwitchContract, FlagSwitchAttribute>(contract);
+
+            Assert.IsFalse(switchStack.Empty);
+
+            // Order is important. Stack will always pop reverse alphabetic order
+            // in order to process longer switches before shorter switches and
+            // eliminate issues resulting from shorter switches starting with the
+            // same characters as longer switches being found in error.
+            Assert.AreEqual("-ignore", switchStack.Pop());
+            Assert.AreEqual("-hard", switchStack.Pop());
+            Assert.AreEqual("-h", switchStack.Pop()); 
+
+            // Also asserts that no other switch types are retrieved on the stack
+            Assert.IsTrue(switchStack.Empty);
         }
 
         //[TestMethod]

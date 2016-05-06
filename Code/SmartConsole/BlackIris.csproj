@@ -44,11 +44,16 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ArgsStash.cs" />
+    <Compile Include="Attributes\FlagSwitchAttribute.cs" />
     <Compile Include="Attributes\ISwitchAttribute.cs" />
     <Compile Include="CmdlineAgent.cs" />
     <Compile Include="Arguments\Argument.cs" />
     <Compile Include="Attributes\KeyValueSwitchAttribute.cs" />
     <Compile Include="Attributes\CommandlineContractAttribute.cs" />
+    <Compile Include="FlagSwitchParameter.cs" />
+    <Compile Include="FlagSwitchWriter.cs" />
+    <Compile Include="ISwitchParameter.cs" />
+    <Compile Include="KeyValueSwitchParameter.cs" />
     <Compile Include="KeyValueSwitchWriter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SwitchStack.cs" />

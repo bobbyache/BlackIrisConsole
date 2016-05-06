@@ -82,5 +82,18 @@ namespace UnitTestFile.Tests
             Assert.AreEqual(contract.Timeout, 200);
             Assert.AreEqual(contract.RunDate, DateTime.Parse("2010/09/02"));
         }
+
+        [TestMethod]
+        public void CommandlineContract_FlagSwitches_PopulateContract()
+        {
+            string[] args = new string[] { "-h", "-up" };
+
+            CmdlineAgent<FlagSwitchContract2> agent = new CmdlineAgent<FlagSwitchContract2>();
+            FlagSwitchContract2 contract = agent.Deserialize(args);
+
+            Assert.IsTrue(contract.BruteForce);
+            Assert.IsFalse(contract.IgnoreWarnings);
+            Assert.IsTrue(contract.UpperCase);
+        }
     }
 }
