@@ -160,4 +160,49 @@ namespace UnitTestFile.Support
         [KeyValueSwitch("-p", ExpectedType = typeof(string))]
         public string Password { get; set; }
     }
+
+    [CommandlineContract]
+    public class CommandAndSwitchContract
+    {
+        //[CommandVerb("move,MOVE")]
+        //public string ProcessCmd { get; set; }
+
+        [FlagSwitch("-h,-hard")]
+        public bool BruteForce { get; set; }
+
+        [FlagSwitch("-ignore")]
+        public bool IgnoreWarnings { get; set; }
+
+        [FlagSwitch("-up")]
+        public bool UpperCase { get; set; }
+
+        [KeyValueSwitch("-u", ExpectedType = typeof(string))]
+        public string Username { get; set; }
+
+        [KeyValueSwitch("-p", ExpectedType = typeof(string))]
+        public string Password { get; set; }
+    }
+
+    [CommandlineContract("gen,generate")]
+    public class NxtGen_Generate
+    {
+        [FlagSwitch("-s")]
+        public bool SaveToFile { get; set; }
+
+        [KeyValueSwitch("-blu", ExpectedType = typeof(string))]
+        public string BlueprintFile { get; set; }
+
+        [KeyValueSwitch("-src", ExpectedType = typeof(string))]
+        public string SourceFile { get; set; }
+    }
+
+    [CommandlineContract("create,create-prj")]
+    public class NxtGen_CreateProject
+    {
+        [KeyValueSwitch("-dir", ExpectedType = typeof(string))]
+        public string ProjectDirectory { get; set; }
+
+        [FlagSwitch("-D")]
+        public bool DeleteExisting { get; set; }
+    }
 }

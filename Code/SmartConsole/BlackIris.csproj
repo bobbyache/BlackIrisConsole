@@ -46,7 +46,7 @@
     <Compile Include="Services\ArgsStash.cs" />
     <Compile Include="Attributes\FlagSwitchAttribute.cs" />
     <Compile Include="Attributes\ISwitchAttribute.cs" />
-    <Compile Include="CmdlineAgent.cs" />
+    <Compile Include="ContractAgent.cs" />
     <Compile Include="Attributes\KeyValueSwitchAttribute.cs" />
     <Compile Include="Attributes\CommandlineContractAttribute.cs" />
     <Compile Include="Parameters\FlagSwitchParameter.cs" />
@@ -56,6 +56,7 @@
     <Compile Include="ContractWriters\KeyValueSwitchWriter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\SwitchStack.cs" />
+    <Compile Include="SupportedContracts.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

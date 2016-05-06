@@ -6,6 +6,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.IO;
 using UnitTestFile.Support;
 using BlackIris;
+using BlackIris.Services;
 
 namespace UnitTestFile
 {
@@ -18,21 +19,55 @@ namespace UnitTestFile
     [TestClass]
     public class TestBench
     {
-        /* *************************************************************************************************************************************************
-        * CURRENTLY YOU NEED TO GET THIS NEXT TEST TO PASS
-        * -------------------------------------------------
-        *  - Support for switches that start with the same text segment as another shorter segment.
-        *  - Use SwitchStack to retrieve switches in the correct order.
-        *  - Fetch from ArgStash in the correct order.
-        *  
-        * ORDER IS IMPORTANT !!!
-        * ----------------------
-        * ALSO, KeyValueSwitchAttribute - is now correctly named, because it represents a switch that has both a key and a value.
-        * However, Argument class doesn't seem to be consistent, and we'll have to look at how that works when we change the Factory.
-        * 
-        ************************************************************************************************************************************************* */
+        [TestMethod]
+        public void CreateCommandlineContracts_SuccessFetchingContractForVerb()
+        {
+            string[] args = new string[] { "gen", "-blu", "blueprint.blu", "-src", "data.dat" };
 
+            SupportedContracts contracts = new SupportedContracts();
+            contracts.Add(typeof(NxtGen_Generate));
 
+            Type contractType = null;
+            contracts.GetContract(args, out contractType);
+            Assert.IsTrue(contractType == typeof(NxtGen_Generate));
 
+            // from here on in you should be able to:
+            //  - populate the properties
+            //  - run the required process
+        }
+
+        [TestMethod]
+        public void CreateCommandlineContracts_VerbNotSupported()
+        {
+            string[] args = new string[] { "gen", "-blu", "blueprint.blu", "-src", "data.dat" };
+
+            SupportedContracts contracts = new SupportedContracts();
+            contracts.Add(typeof(NxtGen_CreateProject));
+
+            Type contractType = null;
+            contracts.GetContract(args, out contractType);
+            Assert.IsTrue(contractType == null);
+
+            // from here on in you should be able to:
+            //  - populate the properties
+            //  - run the required process
+        }
+
+        // Not sure if this is needed yet, test is basically to check that more than one verb is not handed down
+        // through the command line.
+
+        //[TestMethod]
+        //[ExpectedException(typeof(ApplicationException))]
+        //public void CommandlineContract_ThrowsException_NoContractFound()
+        //{
+        //    string[] args = new string[] { "gen", "-host", "ZACTN51", "-dCBMDB", "-tTableName", "-uRob", "-pPassword", "-O2000", "generate"};
+
+        //    SupportedContracts contracts = new SupportedContracts();
+        //    contracts.Add(typeof(NxtGen_CreateProject));
+
+        //    Type contractType = null;
+        //    contracts.GetContract(args, out contractType);
+        //    Assert.IsTrue(contractType == null);
+        //}
     }
 }

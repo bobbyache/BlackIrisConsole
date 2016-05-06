@@ -13,7 +13,7 @@ namespace UnitTestFile.Tests
         {
             string[] args = new string[] { "-host", "ZACTN51", "-dCBMDB", "-tTableName", "-uRob", "-pPassword", "-O2000" };
 
-            CmdlineAgent<BcpArgContract> agent = new CmdlineAgent<BcpArgContract>();
+            ContractAgent<BcpArgContract> agent = new ContractAgent<BcpArgContract>();
             BcpArgContract contract = agent.Deserialize(args);
 
             Assert.AreEqual(contract.Host, "ZACTN51");
@@ -30,7 +30,7 @@ namespace UnitTestFile.Tests
         {
             string[] args = new string[] { "-host", "ZACTN51", "-d", "CBMDB", "-t", "TableName", "-u", "Rob", "-p", "Password", "-O", "2000" };
 
-            CmdlineAgent<BcpArgContract> agent = new CmdlineAgent<BcpArgContract>();
+            ContractAgent<BcpArgContract> agent = new ContractAgent<BcpArgContract>();
             BcpArgContract contract = agent.Deserialize(args);
 
             Assert.AreEqual(contract.Host, "ZACTN51");
@@ -46,7 +46,7 @@ namespace UnitTestFile.Tests
         {
             string[] args = new string[] { "-host", "ZACTN51", "-dCBMDB", "-tTableName", "-URob", "-pPassword", "-O2000" };
 
-            CmdlineAgent<SomeLowerCaseContract> agent = new CmdlineAgent<SomeLowerCaseContract>();
+            ContractAgent<SomeLowerCaseContract> agent = new ContractAgent<SomeLowerCaseContract>();
             SomeLowerCaseContract contract = agent.Deserialize(args);
 
             Assert.AreEqual(contract.Host, "ZACTN51");
@@ -62,7 +62,7 @@ namespace UnitTestFile.Tests
         {
             string[] args = new string[] { "-h", "ZACTN51", "-hdatabasetblTableName", "-hdatabaseCMDB", "-userpassPassword", "-userRob", "-tr2010/09/02", "-t200" };
 
-            CmdlineAgent<SimilarSwitchContract> agent = new CmdlineAgent<SimilarSwitchContract>();
+            ContractAgent<SimilarSwitchContract> agent = new ContractAgent<SimilarSwitchContract>();
             SimilarSwitchContract contract = agent.Deserialize(args);
 
             Assert.AreEqual(contract.Host, "ZACTN51");
@@ -79,7 +79,7 @@ namespace UnitTestFile.Tests
         {
             string[] args = new string[] { "-h", "-up" };
 
-            CmdlineAgent<FlagSwitchContract2> agent = new CmdlineAgent<FlagSwitchContract2>();
+            ContractAgent<FlagSwitchContract2> agent = new ContractAgent<FlagSwitchContract2>();
             FlagSwitchContract2 contract = agent.Deserialize(args);
 
             Assert.IsTrue(contract.BruteForce);
@@ -87,13 +87,29 @@ namespace UnitTestFile.Tests
             Assert.IsTrue(contract.UpperCase);
         }
 
+        //[TestMethod]
+        //public void CommandlineContract_CommandAndSwitch_PopulatesAll()
+        //{
+        //    string[] args = new string[] { "move", "-hard", "-ignore", "-up", "-u", "Username", "-pPassword" };
+
+        //    CmdlineAgent<CommandAndSwitchContract> agent = new CmdlineAgent<CommandAndSwitchContract>();
+        //    CommandAndSwitchContract contract = agent.Deserialize(args);
+
+        //    Assert.AreEqual("move", contract.ProcessCmd);
+        //    Assert.IsTrue(contract.IgnoreWarnings);
+        //    Assert.IsTrue(contract.BruteForce);
+        //    Assert.IsTrue(contract.UpperCase);
+        //    Assert.AreEqual("Username", contract.Username);
+        //    Assert.AreEqual("Password", contract.Password);
+        //}
+
         [TestMethod]
         [ExpectedException(typeof(NotSupportedException))]
         public void CommandlineContract_ThrowsException_NoContractFound()
         {
             string[] args = new string[] { "-host", "ZACTN51", "-dCBMDB", "-tTableName", "-uRob", "-pPassword", "-O2000" };
 
-            CmdlineAgent<Contractless> agent = new CmdlineAgent<Contractless>();
+            ContractAgent<Contractless> agent = new ContractAgent<Contractless>();
             Contractless contract = agent.Deserialize(args);
         }
     }
