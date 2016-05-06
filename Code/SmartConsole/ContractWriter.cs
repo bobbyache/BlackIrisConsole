@@ -1,12 +1,12 @@
-﻿using Iris.ConsoleArguments.Arguments;
-using Iris.ConsoleArguments.Attributes;
+﻿using BlackIris.Arguments;
+using BlackIris.Attributes;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Text;
 
-namespace Iris.ConsoleArguments
+namespace BlackIris
 {
     internal class ContractWriter<T> where T : class, new()
     {

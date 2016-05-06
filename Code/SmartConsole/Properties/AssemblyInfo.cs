@@ -8,12 +8,12 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("ConsoleArguments")]
+[assembly: AssemblyTitle("BlackIris")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("OMIGSA")]
-[assembly: AssemblyProduct("ConsoleArguments")]
-[assembly: AssemblyCopyright("Copyright © OMIGSA 2012")]
+[assembly: AssemblyCompany("CygSoft")]
+[assembly: AssemblyProduct("BlackIris")]
+[assembly: AssemblyCopyright("Copyright © CygSoft 2012")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Reflection;
-using Iris.ConsoleArguments.Attributes;
-using Iris.ConsoleArguments.Arguments;
+using BlackIris.Attributes;
+using BlackIris.Arguments;
 
-namespace Iris.ConsoleArguments
+namespace BlackIris
 {
     public class CmdlineAgent<T> where T : class, new()
     {

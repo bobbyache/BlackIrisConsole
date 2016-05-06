@@ -1,4 +1,4 @@
-﻿using Iris.ConsoleArguments.Attributes;
+﻿using BlackIris.Attributes;
 using System;
 using System.Collections.Generic;
 using System.Linq;

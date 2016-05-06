@@ -1,6 +1,6 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Iris.ConsoleArguments;
+using BlackIris;
 using UnitTestFile.Consoles;
 
 namespace UnitTestFile.Tests

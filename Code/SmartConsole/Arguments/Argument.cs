@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Iris.ConsoleArguments.Arguments
+namespace BlackIris.Arguments
 {
 
     internal class Argument

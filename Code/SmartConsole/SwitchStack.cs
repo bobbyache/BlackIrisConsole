@@ -1,11 +1,11 @@
-﻿using Iris.ConsoleArguments.Attributes;
+﻿using BlackIris.Attributes;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Text;
 
-namespace Iris.ConsoleArguments
+namespace BlackIris
 {
     internal class SwitchStack<T> where T : class
     {

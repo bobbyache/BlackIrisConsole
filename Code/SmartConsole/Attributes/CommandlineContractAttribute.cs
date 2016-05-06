@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Iris.ConsoleArguments.Attributes
+namespace BlackIris.Attributes
 {
     [AttributeUsage(AttributeTargets.Class)]
     public class CommandlineContractAttribute : Attribute
