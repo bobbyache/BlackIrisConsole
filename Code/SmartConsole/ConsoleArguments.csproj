@@ -45,6 +45,7 @@
     <Compile Include="Arguments\Argument.cs" />
     <Compile Include="Attributes\KeyValueSwitchAttribute.cs" />
     <Compile Include="Attributes\CommandlineContractAttribute.cs" />
+    <Compile Include="ContractWriter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SwitchStack.cs" />
   </ItemGroup>

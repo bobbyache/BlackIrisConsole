@@ -18,13 +18,23 @@ namespace Iris.ConsoleArguments
             if (!IsCommandlineContract(contract))
                 throw new NotSupportedException("The object contract is not decorated with the CommandlineContract attribute.");
 
-            PopulateContract(contract, CreateArguments(contract, args));
+            WriteToContract(contract, CreateArguments(contract, args));
 
             return contract;
         }
 
+        private void WriteToContract(T contract, List<Argument> arguments)
+        {
+            ContractWriter<T> contractWriter = new ContractWriter<T>();
+            contractWriter.Write(contract, arguments);
+        }
+
         private List<Argument> CreateArguments(T contract, string[] args)
         {
+            // using the SwitchStack, the switches are presented in a matter so
+            // that the switches with greater length beginning with the same
+            // characters are grabbed first together with their matching args
+            // so that conflicts are avoided.
             SwitchStack<T> switchStack = new SwitchStack<T>(contract);
             ArgsStash argStash = new ArgsStash(args);
             List<Argument> argumentsList = new List<Argument>();
@@ -42,23 +52,11 @@ namespace Iris.ConsoleArguments
             return argumentsList;
         }
 
-        private void PopulateContract(object argContract, List<Argument> arguments)
-        {
-            Type t = argContract.GetType();
-            PropertyInfo[] propInfos = t.GetProperties();
-
-            foreach (PropertyInfo propInfo in propInfos)
-                WriteArgument(argContract, propInfo, arguments);
-        }
-
-        /// <summary>
-        /// Checks that object being passed in is decorated with the command line attribute.
-        /// </summary>
-        private bool IsCommandlineContract(object argContract)
+        private bool IsCommandlineContract(T contract)
         {
             try
             {
-                Type t = argContract.GetType();
+                Type t = contract.GetType();
                 object[] attributes = t.GetCustomAttributes(false);
 
                 var result = (from a in attributes
@@ -69,57 +67,6 @@ namespace Iris.ConsoleArguments
             catch (Exception)
             {
                 return false;
-            }
-        }
-
-        private KeyValueSwitchAttribute[] PropertyArgumentContracts(PropertyInfo property)
-        {
-            object[] attrs = property.GetCustomAttributes(false);
-            KeyValueSwitchAttribute[] argumentAttributes = (from obj in attrs
-                                                            select obj).OfType<KeyValueSwitchAttribute>().ToArray();
-            return argumentAttributes;
-        }
-
-        private void WriteArgument(object argumentContract, PropertyInfo property, List<Argument> arguments)
-        {
-            KeyValueSwitchAttribute[] argumentAttributes = PropertyArgumentContracts(property);
-
-            foreach (KeyValueSwitchAttribute argAttr in argumentAttributes)
-            {
-                foreach (Argument argument in arguments)
-                {
-                    if (argAttr.Switches.Contains(argument.Switch))
-                    {
-                        switch (property.PropertyType.ToString())
-                        {
-                            case "System.String":
-                                property.SetValue(argumentContract, argument.Text, null);
-                                break;
-                            case "System.Int32":
-                                {
-                                    int value;
-                                    bool success = int.TryParse(argument.Text, out value);
-                                    if (success)
-                                        property.SetValue(argumentContract, value, null);
-                                    else
-                                        property.SetValue(argumentContract, 0, null);
-                                    break;
-                                }
-                            case "System.DateTime":
-                                {
-                                    DateTime value;
-                                    bool success = DateTime.TryParse(argument.Text, out value);
-                                    if (success)
-                                        property.SetValue(argumentContract, value, null);
-                                    else
-                                        property.SetValue(argumentContract, DateTime.MinValue, null);
-                                    break;
-                                    
-                                }
-                        }
-                        return;
-                    }
-                }
             }
         }
     }

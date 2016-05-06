@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Iris.ConsoleArguments
 {
-    public class ArgsStash
+    internal class ArgsStash
     {
         string[] args;
         List<string> argList = new List<string>();
