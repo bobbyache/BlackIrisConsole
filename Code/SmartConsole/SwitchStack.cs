@@ -7,14 +7,14 @@ using System.Text;
 
 namespace BlackIris
 {
-    internal class SwitchStack<T> where T : class
+    internal class SwitchStack<TContract> where TContract : class
     {
-        private T contract = null;
+        private TContract contract = null;
         private Stack<string> switchStack = new Stack<string>();
 
         public bool Empty { get { return switchStack.Count == 0; } }
 
-        public SwitchStack(T contract)
+        public SwitchStack(TContract contract)
         {
             this.contract = contract;
             Reset();

@@ -8,12 +8,12 @@ using BlackIris.Arguments;
 
 namespace BlackIris
 {
-    public class CmdlineAgent<T> where T : class, new()
+    public class CmdlineAgent<TContract> where TContract : class, new()
     {
-        public T Deserialize(string[] args)
+        public TContract Deserialize(string[] args)
         {
 
-            T contract = new T();
+            TContract contract = new TContract();
 
             if (!IsCommandlineContract(contract))
                 throw new NotSupportedException("The object contract is not decorated with the CommandlineContract attribute.");
@@ -23,19 +23,19 @@ namespace BlackIris
             return contract;
         }
 
-        private void WriteToContract(T contract, List<Argument> arguments)
+        private void WriteToContract(TContract contract, List<Argument> arguments)
         {
-            ContractWriter<T> contractWriter = new ContractWriter<T>();
+            KeyValueSwitchWriter<TContract> contractWriter = new KeyValueSwitchWriter<TContract>();
             contractWriter.Write(contract, arguments);
         }
 
-        private List<Argument> CreateArguments(T contract, string[] args)
+        private List<Argument> CreateArguments(TContract contract, string[] args)
         {
             // using the SwitchStack, the switches are presented in a matter so
             // that the switches with greater length beginning with the same
             // characters are grabbed first together with their matching args
             // so that conflicts are avoided.
-            SwitchStack<T> switchStack = new SwitchStack<T>(contract);
+            SwitchStack<TContract> switchStack = new SwitchStack<TContract>(contract);
             ArgsStash argStash = new ArgsStash(args);
             List<Argument> argumentsList = new List<Argument>();
 
@@ -52,7 +52,7 @@ namespace BlackIris
             return argumentsList;
         }
 
-        private bool IsCommandlineContract(T contract)
+        private bool IsCommandlineContract(TContract contract)
         {
             try
             {

@@ -8,18 +8,18 @@ using System.Text;
 
 namespace BlackIris
 {
-    internal class ContractWriter<T> where T : class, new()
+    internal class KeyValueSwitchWriter<TContract> where TContract : class, new()
     {
-        public void Write(T contract, List<Argument> arguments)
+        public void Write(TContract contract, List<Argument> arguments)
         {
             Type t = contract.GetType();
             PropertyInfo[] propInfos = t.GetProperties();
 
             foreach (PropertyInfo propInfo in propInfos)
-                WriteArgument(contract, propInfo, arguments);
+                WriteValue(contract, propInfo, arguments);
         }
 
-        private void WriteArgument(T contract, PropertyInfo property, List<Argument> arguments)
+        private void WriteValue(TContract contract, PropertyInfo property, List<Argument> arguments)
         {
             KeyValueSwitchAttribute[] attrs = PropertyArgumentContracts(property);
 
@@ -32,34 +32,46 @@ namespace BlackIris
                         switch (property.PropertyType.ToString())
                         {
                             case "System.String":
-                                property.SetValue(contract, argument.Text, null);
+                                SetString(contract, property, argument.Text);
                                 break;
-                            case "System.Int32":
-                                {
-                                    int value;
-                                    bool success = int.TryParse(argument.Text, out value);
-                                    if (success)
-                                        property.SetValue(contract, value, null);
-                                    else
-                                        property.SetValue(contract, 0, null);
-                                    break;
-                                }
-                            case "System.DateTime":
-                                {
-                                    DateTime value;
-                                    bool success = DateTime.TryParse(argument.Text, out value);
-                                    if (success)
-                                        property.SetValue(contract, value, null);
-                                    else
-                                        property.SetValue(contract, DateTime.MinValue, null);
-                                    break;
 
-                                }
+                            case "System.Int32":
+                                SetInteger(contract, property, argument.Text);
+                                break;
+
+                            case "System.DateTime":
+                                    SetDateTime(contract, property, argument.Text);
+                                    break;
                         }
                         return;
                     }
                 }
             }
+        }
+
+        private void SetDateTime(TContract contract, PropertyInfo property, string text)
+        {
+            DateTime value;
+            bool success = DateTime.TryParse(text, out value);
+            if (success)
+                property.SetValue(contract, value, null);
+            else
+                property.SetValue(contract, DateTime.MinValue, null);
+        }
+
+        private void SetString(TContract contract, PropertyInfo property, string text)
+        {
+            property.SetValue(contract, text, null);
+        }
+
+        private void SetInteger(TContract contract, PropertyInfo property, string text)
+        {
+            int value;
+            bool success = int.TryParse(text, out value);
+            if (success)
+                property.SetValue(contract, value, null);
+            else
+                property.SetValue(contract, 0, null);
         }
 
         private KeyValueSwitchAttribute[] PropertyArgumentContracts(PropertyInfo property)
