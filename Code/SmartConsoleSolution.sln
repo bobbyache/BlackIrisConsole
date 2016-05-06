@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTestFile", "UnitTests\UnitTestFile.csproj", "{41D8C320-6C3C-4A1E-9A43-4A9EC8DE7577}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTests", "UnitTests\UnitTests.csproj", "{41D8C320-6C3C-4A1E-9A43-4A9EC8DE7577}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{E63C1037-4D24-4726-9A3D-B311952EE86C}"
 	ProjectSection(SolutionItems) = preProject

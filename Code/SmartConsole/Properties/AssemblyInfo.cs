@@ -3,7 +3,7 @@ using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
 // Allow unit tests to see internals
-[assembly: InternalsVisibleTo("UnitTestFile")]
+[assembly: InternalsVisibleTo("UnitTests")]
 
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
