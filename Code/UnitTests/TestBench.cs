@@ -10,11 +10,6 @@ using BlackIris.Services;
 
 namespace UnitTestFile
 {
-    //string[] argies = new string[] { "-host", "-d", "-t", "-u", "-p", "-O" };
-    //string[] argies = new string[] { "" };
-    //string[] argies = new string[] { "-host", "-d", "-t", "-u", "-p", "-O", "-date 2010/09/02" };
-    //string[] argies = new string[] { "-date","2010-09-02" };
-    //string[] argies = new string[] { "-date", "2010-09" };
 
     [TestClass]
     public class TestBench
@@ -52,22 +47,5 @@ namespace UnitTestFile
             //  - populate the properties
             //  - run the required process
         }
-
-        // Not sure if this is needed yet, test is basically to check that more than one verb is not handed down
-        // through the command line.
-
-        //[TestMethod]
-        //[ExpectedException(typeof(ApplicationException))]
-        //public void CommandlineContract_ThrowsException_NoContractFound()
-        //{
-        //    string[] args = new string[] { "gen", "-host", "ZACTN51", "-dCBMDB", "-tTableName", "-uRob", "-pPassword", "-O2000", "generate"};
-
-        //    SupportedContracts contracts = new SupportedContracts();
-        //    contracts.Add(typeof(NxtGen_CreateProject));
-
-        //    Type contractType = null;
-        //    contracts.GetContract(args, out contractType);
-        //    Assert.IsTrue(contractType == null);
-        //}
     }
 }

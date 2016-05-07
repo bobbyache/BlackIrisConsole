@@ -1,7 +1,7 @@
 #Black Iris
 **Black Iris** is a C# utility library with a goal to simplifying the parsing of the args[] string that is passed to Main.
 
-Want to learn more? See the [wiki](https://github.com/bobbyache/hello-world/wiki)
+Want to learn more? See the [wiki](https://github.com/bobbyache/blackirisconsole/wiki)
 
 ##Current Status
 

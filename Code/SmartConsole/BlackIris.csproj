@@ -43,6 +43,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Common\CustomExceptions.cs" />
     <Compile Include="Services\ArgsStash.cs" />
     <Compile Include="Attributes\FlagSwitchAttribute.cs" />
     <Compile Include="Attributes\ISwitchAttribute.cs" />
