@@ -8,6 +8,51 @@ namespace UnitTestFile.Tests
     [TestClass]
     public class CommandlineContractTests
     {
+        [TestMethod]
+        public void CommandlineContract_SquashedKeyValuePattern()
+        {
+            string[] argsSquashed = new string[] { "gen", "/o200", "/date2015/03/02", "/amt3456.23", "/asciiD" };
+            string[] argsDefault = new string[] { "gen", "/o", "200", "/date", "2015/03/02", "/amt", "3456.23", "/ascii", "D" };
+
+            CmdlineContractAgent<SquashedKeyValuePatternContract> squashedAgent = new CmdlineContractAgent<SquashedKeyValuePatternContract>();
+            SquashedKeyValuePatternContract squashedContract = squashedAgent.Deserialize(argsSquashed);
+
+            CmdlineContractAgent<SquashedKeyValuePatternContract> defaultAgent = new CmdlineContractAgent<SquashedKeyValuePatternContract>();
+            SquashedKeyValuePatternContract defaultContract = defaultAgent.Deserialize(argsDefault);
+
+            Assert.AreEqual(squashedContract.Timeout, 200);
+            Assert.AreEqual(squashedContract.RunDate, DateTime.Parse("2015/03/02"));
+            Assert.AreEqual(squashedContract.Amount, 3456.23);
+            Assert.AreEqual(squashedContract.AsciiChar, 'D');
+
+            Assert.AreEqual(defaultContract.Timeout, null);
+            Assert.AreEqual(defaultContract.RunDate, null);
+            Assert.AreEqual(defaultContract.Amount, null);
+            Assert.AreEqual(defaultContract.AsciiChar, null);
+        }
+
+        [TestMethod]
+        public void CommandlineContract_DefaultKeyValuePattern()
+        {
+            string[] argsSquashed = new string[] { "gen", "/o200", "/date2015/03/02", "/amt3456.23", "/asciiD" };
+            string[] argsDefault = new string[] { "gen", "/o", "200", "/date", "2015/03/02", "/amt", "3456.23", "/ascii", "D" };
+
+            CmdlineContractAgent<DefaultKeyValuePatternContract> squashedAgent = new CmdlineContractAgent<DefaultKeyValuePatternContract>();
+            DefaultKeyValuePatternContract squashedContract = squashedAgent.Deserialize(argsSquashed);
+
+            CmdlineContractAgent<DefaultKeyValuePatternContract> defaultAgent = new CmdlineContractAgent<DefaultKeyValuePatternContract>();
+            DefaultKeyValuePatternContract defaultContract = defaultAgent.Deserialize(argsDefault);
+
+            Assert.AreEqual(defaultContract.Timeout, 200);
+            Assert.AreEqual(defaultContract.RunDate, DateTime.Parse("2015/03/02"));
+            Assert.AreEqual(defaultContract.Amount, 3456.23);
+            Assert.AreEqual(defaultContract.AsciiChar, 'D');
+
+            Assert.AreEqual(squashedContract.Timeout, null);
+            Assert.AreEqual(squashedContract.RunDate, null);
+            Assert.AreEqual(squashedContract.Amount, null);
+            Assert.AreEqual(squashedContract.AsciiChar, null);
+        }
 
         [TestMethod]
         public void CreateCommandlineContracts_CustomSwitchPrefix()
@@ -55,7 +100,7 @@ namespace UnitTestFile.Tests
         [TestMethod]
         public void CommandlineContract_KeyValueSwitch_MergedSwitchAndValue()
         {
-            string[] args = new string[] { "-host", "ZACTN51", "-dCBMDB", "-tTableName", "-uRob", "-pPassword", "-O2000" };
+            string[] args = new string[] { "-hostZACTN51", "-dCBMDB", "-tTableName", "-uRob", "-pPassword", "-O2000" };
 
             CmdlineContractAgent<BcpArgContract> agent = new CmdlineContractAgent<BcpArgContract>();
             BcpArgContract contract = agent.Deserialize(args);
@@ -72,7 +117,7 @@ namespace UnitTestFile.Tests
         [TestMethod]
         public void CommandlineContract_KeyValueSwitch_AdjacentSwitchAndValue()
         {
-            string[] args = new string[] { "-host", "ZACTN51", "-d", "CBMDB", "-t", "TableName", "-u", "Rob", "-p", "Password", "-O", "2000" };
+            string[] args = new string[] { "-hostZACTN51", "-dCBMDB", "-tTableName", "-uRob", "-pPassword", "-O2000" };
 
             CmdlineContractAgent<BcpArgContract> agent = new CmdlineContractAgent<BcpArgContract>();
             BcpArgContract contract = agent.Deserialize(args);
@@ -88,7 +133,7 @@ namespace UnitTestFile.Tests
         [TestMethod]
         public void CommandlineContract_KeyValueSwitch_IsCaseSensitive()
         {
-            string[] args = new string[] { "-host", "ZACTN51", "-dCBMDB", "-tTableName", "-URob", "-pPassword", "-O2000" };
+            string[] args = new string[] { "-hostZACTN51", "-dCBMDB", "-tTableName", "-URob", "-pPassword", "-O2000" };
 
             CmdlineContractAgent<SomeLowerCaseContract> agent = new CmdlineContractAgent<SomeLowerCaseContract>();
             SomeLowerCaseContract contract = agent.Deserialize(args);
@@ -105,7 +150,7 @@ namespace UnitTestFile.Tests
         [TestMethod]
         public void CommandlineContract_KeyValueSwitch_Supports_SwitchStartingWithSameChars()
         {
-            string[] args = new string[] { "-h", "ZACTN51", "-hdatabasetblTableName", "-hdatabaseCMDB", "-userpassPassword", "-userRob", "-tr2010/09/02", "-t200" };
+            string[] args = new string[] { "-hZACTN51", "-hdatabasetblTableName", "-hdatabaseCMDB", "-userpassPassword", "-userRob", "-tr2010/09/02", "-t200" };
 
             CmdlineContractAgent<SimilarSwitchContract> agent = new CmdlineContractAgent<SimilarSwitchContract>();
             SimilarSwitchContract contract = agent.Deserialize(args);

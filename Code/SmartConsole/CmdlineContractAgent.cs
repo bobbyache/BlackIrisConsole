@@ -41,7 +41,7 @@ namespace BlackIris
             // characters are grabbed first together with their matching args
             // so that conflicts are avoided.
             SwitchStack<TContract, FlagSwitchAttribute> switchStack = new SwitchStack<TContract, FlagSwitchAttribute>(contract);
-            ArgsStash argStash = new ArgsStash(args, GetSwitchPrefix(contract));
+            ArgsStash argStash = new ArgsStash(args, GetKeyValuePattern(contract),  GetSwitchPrefix(contract));
             List<FlagSwitchParameter> argumentsList = new List<FlagSwitchParameter>();
 
             while (!switchStack.Empty)
@@ -64,7 +64,7 @@ namespace BlackIris
             // characters are grabbed first together with their matching args
             // so that conflicts are avoided.
             SwitchStack<TContract, KeyValueSwitchAttribute> switchStack = new SwitchStack<TContract, KeyValueSwitchAttribute>(contract);
-            ArgsStash argStash = new ArgsStash(args, GetSwitchPrefix(contract));
+            ArgsStash argStash = new ArgsStash(args, GetKeyValuePattern(contract), GetSwitchPrefix(contract));
             List<KeyValueSwitchParameter> argumentsList = new List<KeyValueSwitchParameter>();
 
             while (!switchStack.Empty)
@@ -78,6 +78,20 @@ namespace BlackIris
                 }
             }
             return argumentsList;
+        }
+
+        private ContractKeyValuePattern GetKeyValuePattern(TContract contract)
+        {
+            Type t = contract.GetType();
+            object[] attributes = t.GetCustomAttributes(false);
+
+            var result = (from a in attributes
+                          select a).OfType<CommandlineContractAttribute>().SingleOrDefault();
+
+            if (result != null)
+                return result.KeyValuePattern;
+            else
+                return ContractKeyValuePattern.Default;
         }
 
         private char GetSwitchPrefix(TContract contract)

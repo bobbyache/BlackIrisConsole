@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace UnitTestFile.Support
 {
-    [CommandlineContract]
+    [CommandlineContract("gen", ContractKeyValuePattern.Squashed)]
     public class BcpArgContract
     {
         [KeyValueSwitch("-H,-host", ExpectedType = typeof(string))]
@@ -56,7 +56,7 @@ namespace UnitTestFile.Support
         public Nullable<DateTime> RunDate { get; set; }
     }
 
-    [CommandlineContract]
+    [CommandlineContract("gen", ContractKeyValuePattern.Squashed)]
     public class SimilarSwitchContract
     {
         [KeyValueSwitch("-h", ExpectedType = typeof(string))]
@@ -87,7 +87,7 @@ namespace UnitTestFile.Support
         public Nullable<DateTime> RunDate { get; set; }
     }
 
-    [CommandlineContract]
+    [CommandlineContract("gen", ContractKeyValuePattern.Squashed)]
     public class SomeLowerCaseContract
     {
         [KeyValueSwitch("-H,-host", ExpectedType = typeof(string))]
@@ -222,8 +222,41 @@ namespace UnitTestFile.Support
         public Nullable<char> AsciiChar { get; set; }
     }
 
-    [CommandlineContract("gen", '/')]
+    [CommandlineContract("gen", ContractKeyValuePattern.Default, '/')]
     public class DifferentSwitchContract
+    {
+        [KeyValueSwitch("/o", ExpectedType = typeof(Int32))]
+        public Nullable<int> Timeout { get; set; }
+
+        [KeyValueSwitch("/date", ExpectedType = typeof(DateTime))]
+        public Nullable<DateTime> RunDate { get; set; }
+
+        [KeyValueSwitch("/amt", ExpectedType = typeof(Double))]
+        public Nullable<Double> Amount { get; set; }
+
+        [KeyValueSwitch("/ascii", ExpectedType = typeof(char))]
+        public Nullable<char> AsciiChar { get; set; }
+    }
+
+
+    [CommandlineContract("gen", ContractKeyValuePattern.Squashed, '/')]
+    public class SquashedKeyValuePatternContract
+    {
+        [KeyValueSwitch("/o", ExpectedType = typeof(Int32))]
+        public Nullable<int> Timeout { get; set; }
+
+        [KeyValueSwitch("/date", ExpectedType = typeof(DateTime))]
+        public Nullable<DateTime> RunDate { get; set; }
+
+        [KeyValueSwitch("/amt", ExpectedType = typeof(Double))]
+        public Nullable<Double> Amount { get; set; }
+
+        [KeyValueSwitch("/ascii", ExpectedType = typeof(char))]
+        public Nullable<char> AsciiChar { get; set; }
+    }
+
+    [CommandlineContract("gen", ContractKeyValuePattern.Default, '/')]
+    public class DefaultKeyValuePatternContract
     {
         [KeyValueSwitch("/o", ExpectedType = typeof(Int32))]
         public Nullable<int> Timeout { get; set; }

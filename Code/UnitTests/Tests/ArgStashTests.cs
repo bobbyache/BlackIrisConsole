@@ -2,6 +2,7 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using BlackIris;
 using BlackIris.Services;
+using BlackIris.Attributes;
 
 namespace UnitTestFile.Tests
 {
@@ -30,7 +31,7 @@ namespace UnitTestFile.Tests
              * this should never actually happen with switches that expect values.
              * */
             string[] args = new string[] { "-h", "-hdatabase", "-userpass" };
-            ArgsStash argStash = new ArgsStash(args, '-');
+            ArgsStash argStash = new ArgsStash(args, ContractKeyValuePattern.Default, '-');
             Assert.AreEqual("-hdatabase", argStash.Pop("-hdatabase"));
             Assert.AreEqual("-userpass", argStash.Pop("-userpass"));
             Assert.AreEqual("-h", argStash.Pop("-h"));
@@ -49,7 +50,7 @@ namespace UnitTestFile.Tests
              * If more than one match is found, then an error will be generated.
              * */
             string[] args = new string[] { "-hZACTN51", "-hdatabasetblTableName", "-hdatabaseCMDB", "-userpassPassword", "-userRob", "-tr2010/09/02", "-t200" };
-            ArgsStash argStash = new ArgsStash(args, '-');
+            ArgsStash argStash = new ArgsStash(args, ContractKeyValuePattern.Squashed, '-');
 
             Assert.IsTrue(argStash.Exists("-userpass"));
             Assert.AreEqual("-userpassPassword", argStash.Pop("-userpass"));
@@ -87,7 +88,7 @@ namespace UnitTestFile.Tests
              * If more than one match is found, then an error will be generated.
              * */
             string[] args = new string[] { "-h", "ZACTN51", "-hdatabasetbl", "TableName", "-hdatabase", "CMDB", "-userpass", "Password", "-user", "Rob", "-tr", "2010/09/02", "-t", "200" };
-            ArgsStash argStash = new ArgsStash(args, '-');
+            ArgsStash argStash = new ArgsStash(args, ContractKeyValuePattern.Default, '-');
 
             Assert.IsTrue(argStash.Exists("-userpass"));
             Assert.AreEqual("-userpassPassword", argStash.Pop("-userpass"));
