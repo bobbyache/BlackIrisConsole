@@ -9,6 +9,13 @@ namespace BlackIris
 {
     public class SupportedContracts
     {
+        private string[] args;
+
+        public SupportedContracts(string[] args)
+        {
+            this.args = args;
+        }
+
         private List<Type> supportedContracts = new List<Type>();
 
         public void Add(Type contract)
@@ -16,7 +23,27 @@ namespace BlackIris
             supportedContracts.Add(contract);
         }
 
-        public bool GetContract(string[] args, out Type contractType)
+        public Type GetContract()
+        {
+            string[] supportedVerbs = GetVerbs();
+            string commandVerb = FindVerb(supportedVerbs, args);
+
+
+            foreach (Type contract in supportedContracts)
+            {
+                object[] attrs = contract.GetCustomAttributes(false);
+                CommandlineContractAttribute attr = (from obj in attrs
+                                                     select obj).OfType<CommandlineContractAttribute>().SingleOrDefault();
+                bool supported = attr.Verbs.Contains(commandVerb);
+                if (supported)
+                {
+                    return contract;
+                }
+            }
+            return null;
+        }
+
+        public bool GetContract(out Type contractType)
         {
             string[] supportedVerbs = GetVerbs();
             string commandVerb = FindVerb(supportedVerbs, args);

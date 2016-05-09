@@ -19,11 +19,10 @@ namespace UnitTestFile
         {
             string[] args = new string[] { "gen", "-blu", "blueprint.blu", "-src", "data.dat" };
 
-            SupportedContracts contracts = new SupportedContracts();
+            SupportedContracts contracts = new SupportedContracts(args);
             contracts.Add(typeof(NxtGen_Generate));
 
-            Type contractType = null;
-            contracts.GetContract(args, out contractType);
+            Type contractType = contracts.GetContract();
             Assert.IsTrue(contractType == typeof(NxtGen_Generate));
 
             // from here on in you should be able to:
@@ -36,11 +35,11 @@ namespace UnitTestFile
         {
             string[] args = new string[] { "gen", "-blu", "blueprint.blu", "-src", "data.dat" };
 
-            SupportedContracts contracts = new SupportedContracts();
+            SupportedContracts contracts = new SupportedContracts(args);
             contracts.Add(typeof(NxtGen_CreateProject));
 
             Type contractType = null;
-            contracts.GetContract(args, out contractType);
+            contracts.GetContract(out contractType);
             Assert.IsTrue(contractType == null);
 
             // from here on in you should be able to:
