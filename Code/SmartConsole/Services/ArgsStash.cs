@@ -1,4 +1,5 @@
 ﻿using BlackIris.Attributes;
+using BlackIris.Common.Exceptions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -65,51 +66,19 @@ namespace BlackIris.Services
             }
             else if (keyValuePattern == ContractKeyValuePattern.Squashed)
             {
-                // the switch is squashed to the value for the switch, so
-                // just remove this segment (arg).
-                string arg = argList.SingleOrDefault(a => a.StartsWith(switchKey));
-                argList.Remove(arg);
-                return arg;
+                try
+                {
+                    // the switch is squashed to the value for the switch, so
+                    // just remove this segment (arg).
+                    string arg = argList.SingleOrDefault(a => a.StartsWith(switchKey));
+                    argList.Remove(arg);
+                    return arg;
+                }
+                catch (InvalidOperationException ex)
+                {
+                    throw new DuplicateSwitchException(string.Format("Duplicate switch {0} detected.", switchKey), ex);
+                }
             }
-
-
-
-            //if (Exists(switchKey))
-            //{
-
-
-            //    if (IsStandaloneSwitch(switchKey))
-            //    {
-            //        // get the next index
-            //        int nextIndex = argList.IndexOf(switchKey) + 1;
-
-            //        if (nextIndex > argList.Count - 1 || IsLikeSwitch(argList[nextIndex]))
-            //        {
-            //            // if the next segment doesn't exist, or it looks
-            //            // like a switch just remove this arg.
-            //            argList.Remove(switchKey);
-            //            return switchKey;
-            //        }
-            //        else
-            //        {
-            //            // the next segment (arg) is likely to be a value
-            //            // for the switch, so fetch it and remove it together
-            //            // with this arg.
-            //            string arg = switchKey + argList[nextIndex];
-            //            argList.RemoveAt(nextIndex);
-            //            argList.Remove(switchKey);
-            //            return arg;
-            //        }
-            //    }
-            //    else
-            //    {
-            //        // the switch is squashed to the value for the switch, so
-            //        // just remove this segment (arg).
-            //        string arg = argList.SingleOrDefault(a => a.StartsWith(switchKey));
-            //        argList.Remove(arg);
-            //        return arg;
-            //    }
-            //}
             return null;
         }
 

@@ -26,6 +26,9 @@ namespace BlackIris
 
             string commandVerb = FindVerb(supportedVerbs, args);
 
+            if (commandVerb == null)
+                throw new VerbNotFoundException("Verb was not found.");
+
             if (!VerbIsFirst(commandVerb, args))
                 throw new InvalidVerbPositionException("Verb is out of position.");
 

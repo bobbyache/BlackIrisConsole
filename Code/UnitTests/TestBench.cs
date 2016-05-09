@@ -14,117 +14,66 @@ namespace UnitTestFile
     [TestClass]
     public class TestBench
     {
-        [TestMethod]
-        //[ExpectedException(typeof(MultipleVerbsFoundException))]
-        public void InvalidCmdlineParameterDetected_1()
-        {
-            // test ensures that an exception is raised when and invalid parameter is detected.
-            // tests to ensure that an invalid parameter does not exist in the args
+        // ---------------------------------------------------------------------------------------------------------------------------------------
+        // These tests still need to be passed.
+        // ---------------------------------------------------------------------------------------------------------------------------------------
 
-            //string[] args = new string[] { "gen", "generate", "-blu", "blueprint.blu", "-src", "data.dat" };
+        //[TestMethod]
+        ////[ExpectedException(typeof(MultipleVerbsFoundException))]
+        //public void InvalidCmdlineParameterDetected_1()
+        //{
+        //    // test ensures that an exception is raised when and invalid parameter is detected.
+        //    // tests to ensure that an invalid parameter does not exist in the args
 
-            //CmdlineContractResolver contractResolver = new CmdlineContractResolver();
-            //contractResolver.Add(typeof(NxtGen_Generate));
+        //    //string[] args = new string[] { "gen", "generate", "-blu", "blueprint.blu", "-src", "data.dat" };
 
-            //Type contractType = contractResolver.GetContract(args);
+        //    //CmdlineContractResolver contractResolver = new CmdlineContractResolver();
+        //    //contractResolver.Add(typeof(NxtGen_Generate));
 
-            Assert.Fail();
-        }
+        //    //Type contractType = contractResolver.GetContract(args);
 
-        [TestMethod]
-        [ExpectedException(typeof(InvalidVerbPositionException))]
-        public void VerbIsNotFirstArg()
-        {
-            // Test ensures that an exception is thrown when the detected verb is 
-            // not at the first index of the args array.
+        //    Assert.Fail();
+        //}
 
-            string[] args = new string[] { "-blu", "gen", "blueprint.blu", "-src", "data.dat" };
+        //[TestMethod]
+        //public void InvalidKeyValueSwitch()
+        //{
+        //    Assert.Fail("A key value switch was not identified.");
+        //}
 
-            CmdlineContractResolver contractResolver = new CmdlineContractResolver();
-            contractResolver.Add(typeof(NxtGen_Generate));
+        //[TestMethod]
+        //public void InvalidFlagSwitch()
+        //{
+        //    Assert.Fail("A flag switch was not identified.");
+        //}
 
-            Type contractType = contractResolver.GetContract(args);
-        }
+        //[TestMethod]
+        //public void MandatorySwitchAbsent()
+        //{
+        //    Assert.Fail("A mandatory switch was not provided.");
+        //}
 
-        [TestMethod]
-        [ExpectedException(typeof(MultipleVerbsFoundException))]
-        public void OnlyOneVerbAllowed_1()
-        {
-            string[] args = new string[] { "gen", "generate", "-blu", "blueprint.blu", "-src", "data.dat" };
+        //[TestMethod]
+        //[ExpectedException(typeof(DuplicateSwitchException))]
+        //public void DuplicateSwitchDetected_SwitchAlias()
+        //{
+        //    string[] args = new string[] { "-hostZACTN51", "-dCBMDB", "-tTableName", "-TDuplicateTableName", "-uRob", "-pPassword", "-O2000" };
 
-            CmdlineContractResolver contractResolver = new CmdlineContractResolver();
-            contractResolver.Add(typeof(NxtGen_Generate));
+        //    CmdlineContractAgent<BcpArgContract> agent = new CmdlineContractAgent<BcpArgContract>();
+        //    BcpArgContract contract = agent.Deserialize(args);
+        //}
 
-            Type contractType = contractResolver.GetContract(args);
-        }
+        // ---------------------------------------------------------------------------------------------------------------------------------------
 
-        [TestMethod]
-        [ExpectedException(typeof(MultipleVerbsFoundException))]
-        public void OnlyOneVerbAllowed_2()
-        {
-            string[] args = new string[] { "gen", "gen", "-blu", "blueprint.blu", "-src", "data.dat" };
-
-            CmdlineContractResolver contractResolver = new CmdlineContractResolver();
-            contractResolver.Add(typeof(NxtGen_Generate));
-
-            Type contractType = contractResolver.GetContract(args);
-        }
 
         [TestMethod]
-        public void InvalidKeyValueSwitch()
+        [ExpectedException(typeof(DuplicateSwitchException))]
+        public void DuplicateSwitchDetected_Exact()
         {
-            Assert.Fail("A key value switch was not identified.");
-        }
+            string[] args = new string[] { "-hostZACTN51", "-dCBMDB", "-tTableName", "-tDuplicateTableName", "-uRob", "-pPassword", "-O2000" };
 
-        [TestMethod]
-        public void InvalidFlagSwitch()
-        {
-            Assert.Fail("A flag switch was not identified.");
-        }
-
-        [TestMethod]
-        public void DuplicateSwitchDetected()
-        {
-            Assert.Fail("A duplicate switch was detected.");
-        }
-
-        [TestMethod]
-        public void MandatorySwitchAbsent()
-        {
-            Assert.Fail("A mandatory switch was not provided.");
-        }
-
-        [TestMethod]
-        public void CreateCommandlineContracts_SuccessFetchingContractForVerb()
-        {
-            string[] args = new string[] { "gen", "-blu", "blueprint.blu", "-src", "data.dat" };
-
-            CmdlineContractResolver contractResolver = new CmdlineContractResolver();
-            contractResolver.Add(typeof(NxtGen_Generate));
-
-            Type contractType = contractResolver.GetContract(args);
-            Assert.IsTrue(contractType == typeof(NxtGen_Generate));
-
-            // from here on in you should be able to:
-            //  - populate the properties
-            //  - run the required process
-        }
-
-        [TestMethod]
-        public void CreateCommandlineContracts_VerbNotSupported()
-        {
-            string[] args = new string[] { "gen", "-blu", "blueprint.blu", "-src", "data.dat" };
-
-            CmdlineContractResolver contractResolver = new CmdlineContractResolver();
-            contractResolver.Add(typeof(NxtGen_CreateProject));
-
-            Type contractType = contractResolver.GetContract(args);
-
-            Assert.IsTrue(contractType == null);
-
-            // from here on in you should be able to:
-            //  - populate the properties
-            //  - run the required process
+            CmdlineContractAgent<BcpArgContract> agent = new CmdlineContractAgent<BcpArgContract>();
+            BcpArgContract contract = agent.Deserialize(args);
         }
     }
 }

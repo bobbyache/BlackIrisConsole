@@ -55,6 +55,7 @@
     <Compile Include="Tests\ArgStashTests.cs" />
     <Compile Include="Tests\SwitchStackTests.cs" />
     <Compile Include="Tests\CommandlineContractTests.cs" />
+    <Compile Include="Tests\ContractResolverTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SmartConsole\BlackIris.csproj">
