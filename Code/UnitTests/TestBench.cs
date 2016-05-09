@@ -10,7 +10,6 @@ using BlackIris.Services;
 
 namespace UnitTestFile
 {
-
     [TestClass]
     public class TestBench
     {
@@ -19,10 +18,10 @@ namespace UnitTestFile
         {
             string[] args = new string[] { "gen", "-blu", "blueprint.blu", "-src", "data.dat" };
 
-            SupportedContracts contracts = new SupportedContracts(args);
-            contracts.Add(typeof(NxtGen_Generate));
+            CmdlineContractResolver contractResolver = new CmdlineContractResolver();
+            contractResolver.Add(typeof(NxtGen_Generate));
 
-            Type contractType = contracts.GetContract();
+            Type contractType = contractResolver.GetContract(args);
             Assert.IsTrue(contractType == typeof(NxtGen_Generate));
 
             // from here on in you should be able to:
@@ -35,11 +34,11 @@ namespace UnitTestFile
         {
             string[] args = new string[] { "gen", "-blu", "blueprint.blu", "-src", "data.dat" };
 
-            SupportedContracts contracts = new SupportedContracts(args);
-            contracts.Add(typeof(NxtGen_CreateProject));
+            CmdlineContractResolver contractResolver = new CmdlineContractResolver();
+            contractResolver.Add(typeof(NxtGen_CreateProject));
 
-            Type contractType = null;
-            contracts.GetContract(out contractType);
+            Type contractType = contractResolver.GetContract(args);
+
             Assert.IsTrue(contractType == null);
 
             // from here on in you should be able to:

@@ -7,15 +7,8 @@ using System.Threading.Tasks;
 
 namespace BlackIris
 {
-    public class SupportedContracts
+    public class CmdlineContractResolver
     {
-        private string[] args;
-
-        public SupportedContracts(string[] args)
-        {
-            this.args = args;
-        }
-
         private List<Type> supportedContracts = new List<Type>();
 
         public void Add(Type contract)
@@ -23,7 +16,7 @@ namespace BlackIris
             supportedContracts.Add(contract);
         }
 
-        public Type GetContract()
+        public Type GetContract(string[] args)
         {
             string[] supportedVerbs = GetVerbs();
             string commandVerb = FindVerb(supportedVerbs, args);
@@ -41,29 +34,6 @@ namespace BlackIris
                 }
             }
             return null;
-        }
-
-        public bool GetContract(out Type contractType)
-        {
-            string[] supportedVerbs = GetVerbs();
-            string commandVerb = FindVerb(supportedVerbs, args);
-
-
-            contractType = null;
-
-            foreach (Type contract in supportedContracts)
-            {
-                object[] attrs = contract.GetCustomAttributes(false);
-                CommandlineContractAttribute attr = (from obj in attrs
-                                                     select obj).OfType<CommandlineContractAttribute>().SingleOrDefault();
-                bool supported = attr.Verbs.Contains(commandVerb);
-                if (supported)
-                {
-                    contractType = contract;
-                    return true;
-                }
-            }
-            return false;
         }
 
         private string FindVerb(string[] supportedVerbs, string[] args)

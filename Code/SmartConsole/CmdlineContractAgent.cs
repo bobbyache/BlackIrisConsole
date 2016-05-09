@@ -10,7 +10,7 @@ using BlackIris.Services;
 
 namespace BlackIris
 {
-    public class ContractAgent<TContract>
+    public class CmdlineContractAgent<TContract>
         where TContract : class, new()
     {
         public TContract Deserialize(string[] args)
