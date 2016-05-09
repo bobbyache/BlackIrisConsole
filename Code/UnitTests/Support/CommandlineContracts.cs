@@ -221,4 +221,20 @@ namespace UnitTestFile.Support
         [KeyValueSwitch("-ascii", ExpectedType = typeof(char))]
         public Nullable<char> AsciiChar { get; set; }
     }
+
+    [CommandlineContract("gen", '/')]
+    public class DifferentSwitchContract
+    {
+        [KeyValueSwitch("/o", ExpectedType = typeof(Int32))]
+        public Nullable<int> Timeout { get; set; }
+
+        [KeyValueSwitch("/date", ExpectedType = typeof(DateTime))]
+        public Nullable<DateTime> RunDate { get; set; }
+
+        [KeyValueSwitch("/amt", ExpectedType = typeof(Double))]
+        public Nullable<Double> Amount { get; set; }
+
+        [KeyValueSwitch("/ascii", ExpectedType = typeof(char))]
+        public Nullable<char> AsciiChar { get; set; }
+    }
 }

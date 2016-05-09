@@ -13,7 +13,6 @@ namespace BlackIris
     public class ContractAgent<TContract>
         where TContract : class, new()
     {
-
         public TContract Deserialize(string[] args)
         {
 
@@ -42,7 +41,7 @@ namespace BlackIris
             // characters are grabbed first together with their matching args
             // so that conflicts are avoided.
             SwitchStack<TContract, FlagSwitchAttribute> switchStack = new SwitchStack<TContract, FlagSwitchAttribute>(contract);
-            ArgsStash argStash = new ArgsStash(args);
+            ArgsStash argStash = new ArgsStash(args, GetSwitchPrefix(contract));
             List<FlagSwitchParameter> argumentsList = new List<FlagSwitchParameter>();
 
             while (!switchStack.Empty)
@@ -65,7 +64,7 @@ namespace BlackIris
             // characters are grabbed first together with their matching args
             // so that conflicts are avoided.
             SwitchStack<TContract, KeyValueSwitchAttribute> switchStack = new SwitchStack<TContract, KeyValueSwitchAttribute>(contract);
-            ArgsStash argStash = new ArgsStash(args);
+            ArgsStash argStash = new ArgsStash(args, GetSwitchPrefix(contract));
             List<KeyValueSwitchParameter> argumentsList = new List<KeyValueSwitchParameter>();
 
             while (!switchStack.Empty)
@@ -79,6 +78,20 @@ namespace BlackIris
                 }
             }
             return argumentsList;
+        }
+
+        private char GetSwitchPrefix(TContract contract)
+        {
+            Type t = contract.GetType();
+            object[] attributes = t.GetCustomAttributes(false);
+
+            var result = (from a in attributes
+                          select a).OfType<CommandlineContractAttribute>().SingleOrDefault();
+
+            if (result != null)
+                return result.SwitchPrefix;
+            else
+                return '-';
         }
 
         private bool IsCommandlineContract(TContract contract)

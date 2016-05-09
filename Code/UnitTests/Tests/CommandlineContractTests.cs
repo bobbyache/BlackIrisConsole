@@ -10,6 +10,20 @@ namespace UnitTestFile.Tests
     {
 
         [TestMethod]
+        public void CreateCommandlineContracts_CustomSwitchPrefix()
+        {
+            string[] args = new string[] { "gen", "/o", "200", "/date", "2015/03/02", "/amt", "3456.23", "/ascii", "D" };
+
+            ContractAgent<DifferentSwitchContract> agent = new ContractAgent<DifferentSwitchContract>();
+            DifferentSwitchContract contract = agent.Deserialize(args);
+
+            Assert.AreEqual(contract.Timeout, 200);
+            Assert.AreEqual(contract.RunDate, DateTime.Parse("2015/03/02"));
+            Assert.AreEqual(contract.Amount, 3456.23);
+            Assert.AreEqual(contract.AsciiChar, 'D');
+        }
+
+        [TestMethod]
         public void CreateCommandlineContracts_TestNullableTypes()
         {
             string[] args = new string[] { "gen", "-o", "200", "-date", "2015/03/02", "-amt", "3456.23", "-ascii", "D" };

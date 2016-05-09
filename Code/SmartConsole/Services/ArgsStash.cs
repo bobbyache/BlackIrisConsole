@@ -7,13 +7,15 @@ namespace BlackIris.Services
 {
     internal class ArgsStash
     {
-        string[] args;
-        List<string> argList = new List<string>();
+        private char switchPrefix;
+        private string[] args;
+        private List<string> argList = new List<string>();
 
         public bool Empty { get { return argList.Count == 0; } }
 
-        public ArgsStash(string[] args)
+        public ArgsStash(string[] args, char switchPrefix)
         {
+            this.switchPrefix = switchPrefix;
             this.args = args;
             Reset();
         }
@@ -71,7 +73,7 @@ namespace BlackIris.Services
 
         protected virtual bool IsLikeSwitch(string arg)
         {
-            if (arg.Substring(0, 1) == "-")
+            if (char.Parse(arg.Substring(0, 1)) == this.switchPrefix)
                 return true;
             return false;
         }
