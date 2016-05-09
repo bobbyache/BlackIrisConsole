@@ -8,6 +8,36 @@ namespace UnitTestFile.Tests
     [TestClass]
     public class CommandlineContractTests
     {
+
+        [TestMethod]
+        public void CreateCommandlineContracts_TestNullableTypes()
+        {
+            string[] args = new string[] { "gen", "-o", "200", "-date", "2015/03/02", "-amt", "3456.23", "-ascii", "D" };
+
+            ContractAgent<NullableContract> agent = new ContractAgent<NullableContract>();
+            NullableContract contract = agent.Deserialize(args);
+
+            Assert.AreEqual(contract.Timeout, 200);
+            Assert.AreEqual(contract.RunDate, DateTime.Parse("2015/03/02"));
+            Assert.AreEqual(contract.Amount, 3456.23);
+            Assert.AreEqual(contract.AsciiChar, 'D');
+        }
+
+        [TestMethod]
+        public void CreateCommandlineContracts_TestNullableTypes_NotSet()
+        {
+            string[] args = new string[] { "gen", "-i" };
+
+            ContractAgent<NullableContract> agent = new ContractAgent<NullableContract>();
+            NullableContract contract = agent.Deserialize(args);
+
+            Assert.AreEqual(contract.Timeout, null);
+            Assert.AreEqual(contract.RunDate, null);
+            Assert.AreEqual(contract.Amount, null);
+            Assert.AreEqual(contract.AsciiChar, null);
+        }
+
+
         [TestMethod]
         public void CommandlineContract_KeyValueSwitch_MergedSwitchAndValue()
         {
@@ -51,10 +81,11 @@ namespace UnitTestFile.Tests
 
             Assert.AreEqual(contract.Host, "ZACTN51");
             Assert.AreEqual(contract.Database, "CBMDB");
-            Assert.AreEqual(contract.Username, null);           // upper case switch is not supported
+            Assert.AreEqual(contract.Username, null);               // upper case switch is not supported
             Assert.AreEqual(contract.Password, "Password");
             Assert.AreEqual(contract.TargetTable, "TableName");
-            Assert.AreEqual(contract.Timeout, 0);               // upper case switch is not supported
+            Assert.AreEqual(contract.Timeout, null);                // upper case switch is not supported
+            Assert.AreEqual(contract.RunDate, null);                // was not provided
         }
 
         [TestMethod]

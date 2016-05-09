@@ -39,14 +39,58 @@ namespace BlackIris.ContractWriters
                                 SetInteger(contract, property, argument.Text);
                                 break;
 
+                            case "System.Nullable`1[System.Int32]":
+                                SetInteger(contract, property, argument.Text);
+                                break;
+
                             case "System.DateTime":
-                                    SetDateTime(contract, property, argument.Text);
-                                    break;
+                                SetDateTime(contract, property, argument.Text);
+                                break;
+
+                            case "System.Nullable`1[System.DateTime]":
+                                SetDateTime(contract, property, argument.Text);
+                                break;
+
+                            case "System.Char":
+                                SetCharValue(contract, property, argument.Text);
+                                break;
+
+                            case "System.Nullable`1[System.Char]":
+                                SetCharValue(contract, property, argument.Text);
+                                break;
+
+                            case "System.Double":
+                                SetDoubleValue(contract, property, argument.Text);
+                                break;
+
+                            case "System.Nullable`1[System.Double]":
+                                SetDoubleValue(contract, property, argument.Text);
+                                break;
                         }
                         return;
                     }
                 }
             }
+        }
+
+        private void SetDoubleValue(TContract contract, PropertyInfo property, string text)
+        {
+            double value;
+            bool success = double.TryParse(text, out value);
+            if (success)
+                property.SetValue(contract, value, null);
+            else
+                property.SetValue(contract, null, null);
+        }
+
+        private void SetCharValue(TContract contract, PropertyInfo property, string text)
+        {
+            char value;
+            bool success = char.TryParse(text, out value);
+            if (success)
+                property.SetValue(contract, value, null);
+            else
+                property.SetValue(contract, null, null);
         }
 
         private void SetDateTime(TContract contract, PropertyInfo property, string text)
@@ -56,7 +100,7 @@ namespace BlackIris.ContractWriters
             if (success)
                 property.SetValue(contract, value, null);
             else
-                property.SetValue(contract, DateTime.MinValue, null);
+                property.SetValue(contract, null, null);
         }
 
         private void SetString(TContract contract, PropertyInfo property, string text)
@@ -71,7 +115,7 @@ namespace BlackIris.ContractWriters
             if (success)
                 property.SetValue(contract, value, null);
             else
-                property.SetValue(contract, 0, null);
+                property.SetValue(contract, null, null);
         }
 
         private KeyValueSwitchAttribute[] PropertyArgumentContracts(PropertyInfo property)

@@ -26,10 +26,10 @@ namespace UnitTestFile.Support
         public string Password { get; set; }
 
         [KeyValueSwitch("-o,-O", ExpectedType = typeof(Int32))]
-        public int Timeout { get; set; }
+        public Nullable<int> Timeout { get; set; }
 
         [KeyValueSwitch("-date", ExpectedType = typeof(DateTime))]
-        public DateTime RunDate { get; set; }
+        public Nullable<DateTime> RunDate { get; set; }
     }
 
     public class Contractless
@@ -50,10 +50,10 @@ namespace UnitTestFile.Support
         public string Password { get; set; }
 
         [KeyValueSwitch("-o,-O", ExpectedType = typeof(Int32))]
-        public int Timeout { get; set; }
+        public Nullable<int> Timeout { get; set; }
 
         [KeyValueSwitch("-date", ExpectedType = typeof(DateTime))]
-        public DateTime RunDate { get; set; }
+        public Nullable<DateTime> RunDate { get; set; }
     }
 
     [CommandlineContract]
@@ -84,7 +84,7 @@ namespace UnitTestFile.Support
         public int Timeout { get; set; }
 
         [KeyValueSwitch("-tr", ExpectedType = typeof(DateTime))]
-        public DateTime RunDate { get; set; }
+        public Nullable<DateTime> RunDate { get; set; }
     }
 
     [CommandlineContract]
@@ -106,10 +106,10 @@ namespace UnitTestFile.Support
         public string Password { get; set; }
 
         [KeyValueSwitch("-o", ExpectedType = typeof(Int32))]
-        public int Timeout { get; set; }
+        public Nullable<int> Timeout { get; set; }
 
         [KeyValueSwitch("-date", ExpectedType = typeof(DateTime))]
-        public DateTime RunDate { get; set; }
+        public Nullable<DateTime> RunDate { get; set; }
     }
 
     //[CommandlineContract]
@@ -204,5 +204,21 @@ namespace UnitTestFile.Support
 
         [FlagSwitch("-D")]
         public bool DeleteExisting { get; set; }
+    }
+
+    [CommandlineContract("gen")]
+    public class NullableContract
+    {
+        [KeyValueSwitch("-o", ExpectedType = typeof(Int32))]
+        public Nullable<int> Timeout { get; set; }
+
+        [KeyValueSwitch("-date", ExpectedType = typeof(DateTime))]
+        public Nullable<DateTime> RunDate { get; set; }
+
+        [KeyValueSwitch("-amt", ExpectedType = typeof(Double))]
+        public Nullable<Double> Amount { get; set; }
+
+        [KeyValueSwitch("-ascii", ExpectedType = typeof(char))]
+        public Nullable<char> AsciiChar { get; set; }
     }
 }
