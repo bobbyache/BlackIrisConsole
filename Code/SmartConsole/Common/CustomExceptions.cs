@@ -9,14 +9,28 @@ namespace BlackIris.Common.Exceptions
     /// <summary>
     /// Multiple verbs were found in the command. A command should only have one verb.
     /// </summary>
-    //public class MultipleVerbsFoundException : ApplicationException
-    //{
-    //    public MultipleVerbsFoundException() { }
+    public class MultipleVerbsFoundException : ApplicationException
+    {
+        public MultipleVerbsFoundException() { }
 
-    //    public MultipleVerbsFoundException(string message)
-    //        : base(message) { }
+        public MultipleVerbsFoundException(string message)
+            : base(message) { }
 
-    //    public MultipleVerbsFoundException(string message, Exception innerException)
-    //        : base(message, innerException) { }
-    //}
+        public MultipleVerbsFoundException(string message, Exception innerException)
+            : base(message, innerException) { }
+    }
+
+    /// <summary>
+    /// Multiple verbs were found in the command. A command should only have one verb.
+    /// </summary>
+    public class InvalidVerbPositionException : ApplicationException
+    {
+        public InvalidVerbPositionException() { }
+
+        public InvalidVerbPositionException(string message)
+            : base(message) { }
+
+        public InvalidVerbPositionException(string message, Exception innerException)
+            : base(message, innerException) { }
+    }
 }
